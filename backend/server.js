@@ -6,8 +6,8 @@ const jwt = require('jsonwebtoken');
 
 const { io, onlineUserMap, app, server }  =  require("./utils/socket.js");
 const { mainRouter }= require("./routes.js");
-const { User } = require("./models/auth.js");
-const { Message, GroupMessage, Group, GroupMembers }  =  require("./models/chat.js");
+const { User } = require("./auth/model.js");
+const { Message, GroupMessage, Group, GroupMembers }  =  require("./chat/model.js");
 
 
 app.use(mainRouter);

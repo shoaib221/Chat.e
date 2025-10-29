@@ -1,19 +1,20 @@
 
 
 const express = require("express");
-const { productRouter } = require("./controller/product.js");
-const { workoutRouter } = require("./controller/workout.js");
-const { authRouter } = require("./controller/auth.js");
-const { chatRouter } = require("./controller/chat.js")  
+const { authRouter } = require("./auth/controller.js")
+const { chatRouter } = require("./chat/controller.js")
+const { workoutRouter } = require("./workout/controller.js")
+const { productRouter } = require("./products/controller.js")
 
 
 
 const mainRouter = express.Router();
 
-mainRouter.use( "/workout", workoutRouter );
-mainRouter.use( "/product", productRouter );
+
 mainRouter.use( "/auth", authRouter );
 mainRouter.use( "/chat", chatRouter );
+mainRouter.use( "/workout", workoutRouter );
+mainRouter.use( "/products", productRouter );
 
 // mainRouter.use( "/chat", chatRouter );
 
