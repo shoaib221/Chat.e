@@ -1,0 +1,52 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { io } from "socket.io-client";
+
+
+import { Chat } from "./chat";
+import './groupchat.css';
+import { AuthContext } from "../Auth_1/authContext";
+import { SingleMessage } from "./chat";
+import { Groups } from "./Groups";
+import { Profile } from "../Auth_1/profile";
+
+const api = axios.create( { baseURL: "http://localhost:4000" } )
+
+export const Contacts = () => {
+
+    const [ option, setOption ] = useState("")
+
+    return (
+        <div className="contacts" style={{ display: "flex", backgroundColor: "#0d9350", width: "20%" }} >
+            <div id="leftbar" >
+                <div onClick={()=> setOption("friends")} > Friends </div>
+                <div> Received Requests </div>
+                <div> Sent Requests </div>
+                <div> Search </div>
+            </div>
+            
+            <div id="rightbar" >
+                <div>
+
+                </div>
+            </div>
+        </div>
+    )
+}
+
+
+
+
+export const ChatHead = () => {
+    const [ option, setOption ] = useState(null)
+
+    return (
+        <div id="chathead"  >
+            
+
+
+            
+        
+        </div>
+    )
+}

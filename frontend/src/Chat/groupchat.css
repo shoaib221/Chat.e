@@ -1,0 +1,29 @@
+
+
+
+#chathead {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    background-color: var(--color3);
+}
+
+#chathead nav {
+    display: flex;
+    flex-direction: column;
+    width: 3rem;
+    min-width: 3rem;
+    color: white;
+    justify-content: space-evenly;
+    border-right: 3px solid var(--color4);
+}
+
+.navop {
+    cursor: pointer;
+    text-align: center;
+    
+}
+
+.navop:hover {
+    background-color: var(--color4);
+}

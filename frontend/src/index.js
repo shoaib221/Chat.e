@@ -6,26 +6,21 @@ import {GoogleOAuthProvider} from '@react-oauth/google';
 import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
 import { useContext } from 'react';
 
-
-import './styles/index.css';
+import './index.css';
 import reportWebVitals from './reportWebVitals.jsx';
-import { AuthContextProvider } from './context/authContext.js';
-import { Navbar, OptionBar } from './page/Navbar.jsx';
-import { Auth } from './auth.jsx';
-import { AuthContext } from './context/authContext.js';
-import { GoogleAuth } from './GoogleAuth.jsx';
-import { PageNotFound } from './page/PageNotFound.jsx';
-import { Socket } from "./page/socket.jsx";
+import { AuthContextProvider } from './Auth_1/authContext.js';
+import { Navbar, OptionBar } from './Nav_1/Navbar.jsx';
+import { Auth } from './Auth_1/auth.jsx';
+import { AuthContext } from './Auth_1/authContext.js';
+import { GoogleAuth } from './Auth_1/GoogleAuth.jsx';
+import { PageNotFound } from './Nav_1/PageNotFound.jsx';
+import { Socket } from "./socket/socket.jsx";
 
-import { Chat } from "./page/chat.jsx";
-import { Profile } from './page/profile.jsx';
-import { ChatHead } from './page/groupchat.jsx';
-import { useLogout } from './hooks/auth.js';
-import { Test } from './test.jsx';
+import { Profile } from './Auth_1/profile.jsx';
+import { Test } from './Test/test.jsx';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { Groups } from './page/Groups.jsx';
-import { Story } from './page/story.jsx';
-import { Feed } from './page/Feed.jsx';
+import { Groups } from './Chat/Groups.jsx';
+import { Story } from './Story/story.jsx';
 
 
 const Nantu = () => {
@@ -70,7 +65,6 @@ function App() {
 					<Route path='groups/' element={ <Groups /> }  ></Route>
 					<Route path='profile/' element={ <Profile /> } ></Route>
 					<Route path='story/' element={ <Story /> } ></Route>
-					<Route path='feed/' element={ <Feed /> } ></Route>
 				</Route>
 				<Route exact path='/auth' element={ user ? <Navigate to="/" /> : <Auth /> } >  </Route>
 				<Route exact path='/google-auth' element={ user ? <Navigate to="/" /> : <GoogleAuth /> } >  </Route>
