@@ -53,5 +53,5 @@ The backend is built using Express.js and Socket.IO to enable fast and reliable 
 ## 🧑‍💻 Setup Instructions
 
 ### Clone the repository
-
+```
 git clone https://github.com/shoaib221/Chat.e.git
