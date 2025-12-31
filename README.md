@@ -28,7 +28,7 @@ The backend is built using Express.js and Socket.IO to enable fast and reliable 
 - Socket.IO  
 
 **Frontend:**
-- JavaScript  
+- React.js
 - HTML  
 - CSS  
 - (Framework can be integrated if needed)
@@ -46,14 +46,12 @@ The backend is built using Express.js and Socket.IO to enable fast and reliable 
 ### Backend
 - `express`
 - `socket.io`
-- `cors`
 - `multer` (for media uploads)
-- `dotenv`
 
 ---
 
 ## 🧑‍💻 Setup Instructions
 
 ### Clone the repository
-```bash
-git clone https://github.com/your-username/chat-application.git
+
+git clone https://github.com/shoaib221/Chat.e.git
