@@ -1,8 +1,6 @@
 # 💬 Chat.e
 
-This is a real-time chat application that supports one-to-one and group messaging.  
-Users can exchange text messages as well as share photos, videos, and voice recordings instantly.  
-The backend is built using Express.js and Socket.IO to enable fast and reliable real-time communication.
+This is a real-time chat application that supports one-to-one and group messaging. Users can exchange text messages as well as share photos, videos, and voice recordings instantly. The backend is built using Express.js and Socket.IO to enable fast and reliable real-time communication.
 
 ---
 
@@ -16,7 +14,7 @@ The backend is built using Express.js and Socket.IO to enable fast and reliable 
 - 🎤 Voice message (audio recording) support
 - 🟢 Online/offline user status
 - 🔔 Real-time message updates
-- 🔐 Secure communication (can be extended with authentication)
+- 🔐 Secure communication 
 
 ---
 
@@ -25,33 +23,31 @@ The backend is built using Express.js and Socket.IO to enable fast and reliable 
 **Backend:**
 - Node.js  
 - Express.js  
-- Socket.IO  
+- Socket.IO
 
 **Frontend:**
 - React.js
-- HTML  
-- CSS  
-- (Framework can be integrated if needed)
+- Tailwind CSS
 
 **Real-Time Communication:**
 - WebSocket (via Socket.IO)
 
 **Storage:**
-- Local storage / Cloud storage (configurable for media files)
+- Cloud storage through MongoDB
 
 ---
 
 ## 📦 Packages Used
-
-### Backend
-- `express`
-- `socket.io`
-- `multer` (for media uploads)
+- multer (for media uploads)
 
 ---
 
 ## 🧑‍💻 Setup Instructions
 
-### Clone the repository
 ```
 git clone https://github.com/shoaib221/Chat.e.git
+cd Chat.e
+npm install
+npm run dev
+
+
