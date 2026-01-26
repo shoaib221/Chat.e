@@ -1,141 +1,51 @@
-
-@import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,300..800;1,300..800&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Rancho&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&display=swap');
 @import "tailwindcss";
+@plugin "daisyui";
+
+
+
+
 
 * {
-	padding: 0px;
-	margin: 0px;
-	border: 0px;
 	box-sizing: border-box;
-	overflow: auto;
-	font-family: "Rancho", cursive;
-  	font-style: normal;
 }
 
-:root {
-	--color1 : black;
-	--color2 : white;
-	--color3 : rgb(0, 24, 59);
-	--color4:  rgb(0, 43, 108) ;
-	--color5: rgb(168, 164, 164);
-}
-
-input[type="file"]::file-selector-button {
-  cursor: pointer;
-}
 
 
 
 html {
-	font-size: 22px;
-	height: 100vh;
-	width: 100vw;
-	min-width: 680px;
-	min-height: 500px;
-	overflow: auto;
-	color: white;
-	background-color: var(--color3);
+	font-family: "Merriweather", serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+	font-variation-settings:
+		"wdth" 100;
 }
 
-body {
-	height: 100%;
-	width: 100%;
-}
 
-button {
-	background-color: var(--color3);
-	border: 1px solid var(--color3);
-	border-radius: .2rem;
-	color: var(--color2);
-	font-family: "Rancho", cursive;
-	padding: .25rem;
-	margin: .25rem;
-	cursor: pointer;
-}
 
-button:hover {
-	background-color: var(--color4);
-}
-
-input {
-	background-color: var(--color3);
-	color: var(--color2);
-}
-
-#home {
-	height: 100%;
-	width: 100%;
+.cen-ver {
 	display: flex;
-}
-
-nav {
-	display: flex;
-	justify-content: space-evenly;
 	flex-direction: column;
-	min-width: 3rem;
+	justify-content: center;
+	align-items: center;
 }
 
-#home a {
-	text-align: center;
-	margin: 1rem;
-}
-
-/* Styling the entire scrollbar */
-::-webkit-scrollbar {
-  width: 10px; /* Adjust width for vertical scrollbar */
-  height: 10px; /* Adjust height for horizontal scrollbar */
-}
-
-/* Styling the scrollbar track */
-::-webkit-scrollbar-track {
-  background: rgb(0,0,0,0);
-  border-radius: 5px;
-}
-
-/* Styling the scrollbar thumb */
-::-webkit-scrollbar-thumb {
-  background: rgb(255,255,255,0.2);
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-/* Styling the scrollbar thumb on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(255,255,255,1);
-}
-
-.center-content {
+.cen-hor {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 
-.register {
-	
-	border: 3px solid var(--color4);
-	padding: .5rem;
-	display: flex;
-	flex-direction: column;
-	width: 15rem;
-	gap: 1rem;
+
+@media screen and (max-width: 1024px) {
+	html {
+		font-size: 14px;
+	}
 }
 
-.register input {
-	padding: .5rem;
-	border-radius: .5rem;
-}
 
-.auth {
-	
-	justify-content: center;
-	align-items: center;
-	display: flex;
-}
-
-.hover1:hover {
-	background-color: var(--color4);
-}
-
-.navop {
-	padding: .3rem;
+@media screen and (max-width: 768px) {
+	html {
+		font-size: 12px;
+	}
 }
