@@ -1,13 +1,13 @@
 
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../Auth_1/authContext";
-import { Profile } from "../Auth_1/auth";
+import { useAuthContext } from '../auth/context.jsx'
+
 
 
 export const Navbar = () => {
     
-    const { user } = useContext(AuthContext);
+    const { user } = useAuthContext();
 
     return (
         

@@ -1,57 +1,51 @@
 
-import { useEffect, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { useContext } from "react";
 import { io } from 'socket.io-client';
-import { AuthContext } from "../Auth_1/authContext";
+import { useAuthContext } from '../auth/context.jsx'
 import './socket.css';
 import axios from "axios";
-const api = axios.create( {  baseURL: "http://localhost:4000" } );
+const api = axios.create({ baseURL: "http://localhost:4000" });
+
+const SocketContext = createContext();
+export const useSocketContext = () => useContext(SocketContext);
 
 
 
+export const SocketProvider = ({ children }) => {
+    const { user } = useAuthContext();
+    const socketRef = useRef(null);
+    const [socket, setSocket] = useState(null);
 
-export const Socket = () => {
-    
-    const { user } = useContext(AuthContext);
-    const [ socket, setSocket ] = useState(null);
+    useEffect(() => {
+        if (!user?.accessToken) return;
 
-    
+        if (socketRef.current) return;
 
-    useEffect( () => {
-        if(user)
-        {
-            console.log("logged in");
-            const client = io( 'http://localhost:4000', {
-                query: {
-                    auth: `Bearer ${user.token}`
-                }
-            } )
-            setSocket( client );
-        }
-        else
-        {
-            if(socket && socket.connected) socket.disconnect();
-        }
-        
-    }, [user] )
+        const s = io("http://localhost:4000", {
+            auth: { token: user.accessToken },
+        });
 
+        socketRef.current = s;
+        setSocket(s);
 
+        s.on("test", (data) => {
+            console.log("test", data);
+        });
 
-    const [ curbar, setcurbar ] = useState("chat")
+        return () => {
+            s.disconnect();
+            socketRef.current = null;
+            setSocket(null);
+        };
+    }, [user?.accessToken]); // 👈 important change
 
     return (
-        <div className="chatty" >
-
-            
-            
-            <div  id="opbar">
-                <button onClick={ () => setcurbar("chat") } > Chat </button>
-                <button onClick={ ()=> setcurbar("contact") } > Contact </button>
-                <button onClick={ ()=> setcurbar("chatgroups") } >  Chat Groups </button>
-            </div> 
-        </div>
-    )
-}
+        <SocketContext.Provider value={{ socket }}>
+            {children}
+        </SocketContext.Provider>
+    );
+};
 
 
 

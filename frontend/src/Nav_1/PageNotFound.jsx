@@ -2,17 +2,17 @@
 
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { AuthContext } from "../Auth_1/authContext";
+import { useAuthContext } from '../auth/context.jsx'
 
 
 export const PageNotFound = () => {
     const navigate = useNavigate();
-    const {user}  = useContext(AuthContext)
+    const {user}  = useAuthContext();
 
     return (
         <div>
             404 Page Not Found
-            { !user && <button onClick={ () => { navigate('/auth') } } >Login</button> }
+            
         </div>
     )
 }
