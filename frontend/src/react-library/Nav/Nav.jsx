@@ -66,15 +66,15 @@ export const Nav = () => {
 
             <div className={`${down1 ? "hidden" : "flex"} fixed z-30  bg-[var(--color1)]  flex-col items-center top-14 left-0 right-0 bottom-0 p-4 gap-4`}  >
                 <div onClick={() => DownWindow(true, "/")} className={`class-1 ${navi === "home" && "active-navi"}`}  >Home</div>
-                <div onClick={() => DownWindow(true, "/all-scholarships")} className={`class-1 ${navi === "all-scholarships" && "active-navi"}`} >Scholarships</div>
-                { user && <div onClick={() => DownWindow(true, "/dashboard?board=profile")} className={`class-1 ${navi === "dashboard" && "active-navi"}`} >Dashboard</div>}
+                <div onClick={() => DownWindow(true, "/all-scholarships")} className={`class-1 ${navi === "all-scholarships" && "active-navi"}`} >Chat</div>
+                <div onClick={() => DownWindow(true, "/dashboard?board=profile")} className={`class-1 ${navi === "dashboard" && "active-navi"}`} >Groups</div>
             </div>
 
 
             <div className='hidden lg:flex text-[0.9rem]' >
                 <div onClick={() => DownWindow(true, "/")} className={`class-1 ${navi === "home" && "active-navi"}`}  >Home</div>
-                <div onClick={() => DownWindow(true, "/all-scholarships")} className={`class-1 ${navi === "all-scholarships" && "active-navi"}`} >Scholarships</div>
-                { user && <div onClick={() => DownWindow(true, "/dashboard?board=profile")} className={`class-1 ${navi === "dashboard" && "active-navi"}`} >Dashboard</div> }
+                <div onClick={() => DownWindow(true, "/all-scholarships")} className={`class-1 ${navi === "all-scholarships" && "active-navi"}`} >Chat</div>
+                <div onClick={() => DownWindow(true, "/dashboard?board=profile")} className={`class-1 ${navi === "dashboard" && "active-navi"}`} >Groups</div>
             </div>
 
             
