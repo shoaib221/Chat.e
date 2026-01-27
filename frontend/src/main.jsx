@@ -18,6 +18,9 @@ import { ThemeProvider } from '@/react-library/Theme/Theme.jsx';
 
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
+import { Chat } from './routes/chat.jsx';
+import { Groups } from './routes/groups.jsx';
+import { SocketProvider } from './react-library/socket/socket.jsx';
 
 const queryClient = new QueryClient();
 
@@ -29,6 +32,7 @@ const App = () => {
         <BrowserRouter>
             <ThemeProvider>
             <AuthProvider>
+            <SocketProvider>
             <NavProvider>
                     <ToastContainer />
                     <Routes>
@@ -37,10 +41,13 @@ const App = () => {
                             <Route path='auth' element={<Auth />} />
                             <Route path='test' element={<Test />} />
                             <Route path='profile' element={<UpdateProfile />} />
+                            <Route path='chat' element={ <Chat /> } />
+                            <Route path='groups' element={ <Groups /> } />
                             <Route path="*" element={<NotFound />} />
                         </Route>
                     </Routes>
             </NavProvider>
+            </SocketProvider>
             </AuthProvider>
             </ThemeProvider>
         </BrowserRouter>

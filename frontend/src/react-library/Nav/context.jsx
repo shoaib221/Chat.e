@@ -43,9 +43,8 @@ export const NavProvider = ({ children }) => {
     useEffect(() => {
         //console.log("Location change")
         let path = location.pathname.toLowerCase();
-        if (path.includes("all-scholarships")) selectNavi("all-scholarships");
-        else if (path.includes("dashboard")) selectNavi("dashboard");
-        else if (path.includes("detail")) selectNavi("details");
+        if (path.includes("chat")) selectNavi("chat");
+        else if (path.includes("groups")) selectNavi("groups");
         else selectNavi("home");
     }, [location?.pathname])
 

@@ -22,16 +22,16 @@ export const Entry = () => {
 
             <Nav />
 
-            <br/> <br/> <br/>
+            <div className='h-14' ></div>
 
-            <div className='grow p-2' >
-                <Outlet />
-            </div>
+            
+            <Outlet />
+            
             
                 
             
             
-            <Footer />
+            
 
             
         </>

@@ -11,6 +11,7 @@ import { Chart } from '@/react-library/Charts/charts.jsx';
 import { FAQs } from "@/react-library/miscel/FAQs.jsx"
 import { Banner12 } from '@/react-library/banner/banner1.jsx';
 import { GetInTouch } from '@/react-library/miscel/getintouch';
+import { Footer } from '@/react-library/Nav/Footer';
 
 
 
@@ -37,12 +38,7 @@ export const Home = () => {
     return (
         <div className='block flex-grow relative flex-1 w-full' >
             
-            <Banner12 />
-            
-            
-            
-            
-
+            <Banner12 />            
             
             <div className='header-12' >Hear from Clients</div>
             <br/>
@@ -57,9 +53,7 @@ export const Home = () => {
             </div>
             
             
-            <div className='' >
-
-            </div>
+            <Footer />
             
         </div>
     );
