@@ -79,7 +79,9 @@ const ChatBox = ({ partner }) => {
             
 
             setMessages(prevMessages => {
-                const newMessages = prevMessages.concat(data.messages);
+
+                let newMessages = prevMessages;
+                newMessages = newMessages.concat(data.messages);
                 console.log(newMessages);
                 return newMessages;
             });
