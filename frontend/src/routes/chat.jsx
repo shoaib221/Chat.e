@@ -6,13 +6,14 @@ import { FaRegSmile } from "react-icons/fa";
 import { AiOutlinePicture } from "react-icons/ai";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import { LuAudioLines } from "react-icons/lu";
+import { Message1 } from "@/react-library/miscel/message";
 
 
 export const Chat = () => {
     const [partner, setPartner] = useState(null);
 
     return (
-        <div className="flex grow gap-4" >
+        <div className="flex h-[calc(100vh-60px)] gap-4" >
             <Users setPartner={setPartner} />
             {partner && <ChatBox partner={partner} />}
         </div>
@@ -59,6 +60,8 @@ const ChatBox = ({ partner }) => {
     async function FetchMessage() {
 
         try {
+
+
             let res = await axiosInstance.post('/chat/fetch-message', { partner })
             setMessages(res.data.messages)
             //alert("message fetched")
@@ -98,7 +101,7 @@ const ChatBox = ({ partner }) => {
                 console.log('audio');
             });
 
-            formData.append("text", data.text);
+            if( data.text && data.text.trim() !== "" ) formData.append("text", data.text);
 
             formData.append("receiver", partner.username);
 
@@ -106,7 +109,16 @@ const ChatBox = ({ partner }) => {
 
             let res = await axiosFormData.post('/chat/send-message', formData);
 
+            console.log(res.data);
 
+            let newMessages =  messages ;
+            newMessages = newMessages.concat( res.data.messages ) ;
+
+            console.log(newMessages);
+
+            setMessages(newMessages);
+
+            
 
 
         } catch (err) {
@@ -115,30 +127,30 @@ const ChatBox = ({ partner }) => {
     }
 
     return (
-        <div className="grow flex flex-col" >
-            <div className="min-h-20" >
+        <div className="relative h-[calc(100vh-60px)] grow" >
+            <div className="h-20 absolute top-0 left-0 right-0 bg-(--color1) z-10" >
                 {partner.name}
             </div>
 
-            <div className="grow " >
-                {messages && messages.map(elem => <p>h</p>)}
+            <div className="overflow-auto py-20 max-h-[calc(100vh-60px)]" >
+                {messages && messages.map(elem => <Message1 message={elem} key={elem._id} />)}
             </div>
 
-            <div className="min-h-20" >
-                <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4" >
+            <div className="h-20 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
+                <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center" >
 
-                    <div className="rounded-full bg-(--color1) cursor-pointer" >
+                    <div className="rounded-full bg-(--color1) cursor-pointer relative" >
                         <AiOutlinePicture title="upload image" className="text-2xl" />
                         <input type="file" multiple accept="image/*" {...register("image")}  className="opacity-0 absolute top-0 left-0 h-full w-full" />
                     </div>
 
 
-                    <div className="rounded-full bg-(--color1) cursor-pointer" >
+                    <div className="rounded-full bg-(--color1) cursor-pointer relative" >
                         <MdOutlineSlowMotionVideo title="upload video" className="text-2xl" />
                         <input type="file" multiple accept="video/*" {...register("video")}  className="opacity-0 absolute top-0 left-0 h-full w-full" />
                     </div>
 
-                    <div className="rounded-full bg-(--color1) cursor-pointer" >
+                    <div className="rounded-full bg-(--color1) cursor-pointer relative" >
                         <LuAudioLines title="upload audio" className="text-2xl" />
                         <input type="file" multiple accept="audio/*" {...register("audio")}  className="opacity-0 absolute top-0 left-0 h-full w-full" />
                     </div>

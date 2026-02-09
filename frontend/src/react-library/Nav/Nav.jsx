@@ -81,7 +81,7 @@ export const Nav = () => {
 
             <ProfileLogo1 />
 
-            <ScrollToTop />
+            
         </nav>
     );
 };

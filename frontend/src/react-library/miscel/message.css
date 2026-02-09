@@ -1,0 +1,12 @@
+
+
+.received {
+    margin-right: auto;
+    background-color: red;
+}
+
+
+.sent {
+    margin-left: auto;
+    background-color: green;
+}
