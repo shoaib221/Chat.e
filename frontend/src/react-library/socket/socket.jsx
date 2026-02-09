@@ -1,51 +1,57 @@
 import { io } from "socket.io-client";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useAuthContext } from "../auth/context";
-
-import { createContext, useContext, useState, useEffect } from "react";
-
+import { auth } from "../auth/firebase.config";
 
 const SocketContext = createContext();
-
 export const useSocketContext = () => useContext(SocketContext);
 
 export const SocketProvider = ({ children }) => {
-    const [socket, setSocket] = useState(null);
     const { user } = useAuthContext();
+    const [socket, setSocket] = useState(null);
+    const [ onlineUsers, setOnlineUsers ] = useState({});
+
 
     useEffect(() => {
-        if(!user) return;
+        if (!user) return;
 
-        const socketInstance = io("http://localhost:4000", {
-            transports: ["websocket"],
-            withCredentials: true,
-            auth: { token: user.accessToken }
-        });
+        let socketInstance;
 
-        setSocket(socketInstance);
+        const connectSocket = async () => {
+            const token = await auth.currentUser.getIdToken(true); // 🔥 FIX
 
-        socketInstance.on( "test", () => console.log("test received") )
+            socketInstance = io("http://localhost:4000", {
+                transports: ["websocket"],
+                auth: { token },
+            });
 
-        // Cleanup on unmount
+            socketInstance.on("connect", () => {
+                console.log("Socket connected:", socketInstance.id);
+            });
+
+            socketInstance.on("connect_error", (err) => {
+                console.error("Socket error:", err.message);
+            });
+
+            setSocket(socketInstance);
+
+            socketInstance.on("online-users", (data) => {
+                console.log("Online users:", data.onlineUserMap);
+                setOnlineUsers(data.onlineUserMap);
+            });
+        };
+
+        connectSocket();
+
         return () => {
-            socketInstance.disconnect();
-            setSocket(null)
+            if (socketInstance) socketInstance.disconnect();
+            setSocket(null);
         };
     }, [user]);
 
-
     return (
-        <SocketContext.Provider value={{ socket }} >
+        <SocketContext.Provider value={{ socket, onlineUsers }}>
             {children}
         </SocketContext.Provider>
-    )
-}
-
-export const TestSocket = () => {
-    const { socket } = useSocketContext();
-
-    return (
-        <div onClick={ () => socket.emit('test') } >
-            Test Socket
-        </div>
-    )
-}
+    );
+};

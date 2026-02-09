@@ -24,6 +24,7 @@ export const Chat = () => {
 const Users = (props) => {
     const [users, setUsers] = useState(null);
     const { user, axiosInstance } = useAuthContext();
+    const { onlineUsers } = useSocketContext();
 
 
 
@@ -45,7 +46,7 @@ const Users = (props) => {
 
     return (
         <div className="flex flex-col min-w-80 gap-4"  >
-            {users && users.map(elem => <p onClick={() => props.setPartner(elem)} >{elem.name}</p>)}
+            {users && users.map(elem => <p onClick={() => props.setPartner(elem)} >{elem.name} { onlineUsers[elem.username] ? "(online)" : "(offline)"   } </p>)}
         </div>
     )
 }
@@ -57,19 +58,42 @@ const ChatBox = ({ partner }) => {
     const { socket } = useSocketContext();
     const { register, reset, handleSubmit } = useForm();
 
+
     async function FetchMessage() {
-
         try {
-
-
-            let res = await axiosInstance.post('/chat/fetch-message', { partner })
-            setMessages(res.data.messages)
-            //alert("message fetched")
+            let res = await axiosInstance.post('/chat/fetch-message', { partner });
+            setMessages(res.data.messages);
         } catch (err) {
             console.log(err);
         }
     }
 
+
+    useEffect(() => {
+        if (!socket) return;
+
+        const handleReceiveMessage = (data) => {
+            console.log("message received:", data, partner);
+            if( partner.username !== data.messages[0].sender ) return;
+
+            
+
+            setMessages(prevMessages => {
+                const newMessages = prevMessages.concat(data.messages);
+                console.log(newMessages);
+                return newMessages;
+            });
+        };
+
+        socket.on("receive_message", handleReceiveMessage);
+
+        return () => {
+            socket.off("receive_message", handleReceiveMessage);
+        };
+
+    }, [socket]);
+
+    
 
     useEffect(() => {
         if (!user || !partner) return;
@@ -101,7 +125,7 @@ const ChatBox = ({ partner }) => {
                 console.log('audio');
             });
 
-            if( data.text && data.text.trim() !== "" ) formData.append("text", data.text);
+            if (data.text && data.text.trim() !== "") formData.append("text", data.text);
 
             formData.append("receiver", partner.username);
 
@@ -111,14 +135,14 @@ const ChatBox = ({ partner }) => {
 
             console.log(res.data);
 
-            let newMessages =  messages ;
-            newMessages = newMessages.concat( res.data.messages ) ;
+            let newMessages = messages;
+            newMessages = newMessages.concat(res.data.messages);
 
             console.log(newMessages);
 
             setMessages(newMessages);
 
-            
+
 
 
         } catch (err) {
@@ -141,18 +165,18 @@ const ChatBox = ({ partner }) => {
 
                     <div className="rounded-full bg-(--color1) cursor-pointer relative" >
                         <AiOutlinePicture title="upload image" className="text-2xl" />
-                        <input type="file" multiple accept="image/*" {...register("image")}  className="opacity-0 absolute top-0 left-0 h-full w-full" />
+                        <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute top-0 left-0 h-full w-full" />
                     </div>
 
 
                     <div className="rounded-full bg-(--color1) cursor-pointer relative" >
                         <MdOutlineSlowMotionVideo title="upload video" className="text-2xl" />
-                        <input type="file" multiple accept="video/*" {...register("video")}  className="opacity-0 absolute top-0 left-0 h-full w-full" />
+                        <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute top-0 left-0 h-full w-full" />
                     </div>
 
                     <div className="rounded-full bg-(--color1) cursor-pointer relative" >
                         <LuAudioLines title="upload audio" className="text-2xl" />
-                        <input type="file" multiple accept="audio/*" {...register("audio")}  className="opacity-0 absolute top-0 left-0 h-full w-full" />
+                        <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute top-0 left-0 h-full w-full" />
                     </div>
 
                     <input placeholder="write" className="grow" {...register("text", { required: "" })} />
