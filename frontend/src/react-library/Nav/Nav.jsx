@@ -54,7 +54,7 @@ export const Nav = () => {
 
 
 
-            {down1 ?
+            {/* {down1 ?
                 <div className='flex justify-center px-6 items-center lg:hidden cursor-pointer' onClick={() => DownWindow(false)} >
                     Menu
                 </div>
@@ -62,9 +62,9 @@ export const Nav = () => {
                 <div className='flex justify-center px-6 items-center lg:hidden cursor-pointer' onClick={() => DownWindow(true)} >
                     Back
                 </div>
-            }
+            } */}
 
-            <div className={`${down1 ? "hidden" : "flex"} fixed z-30  bg-[var(--color1)]  flex-col items-center top-14 left-0 right-0 bottom-0 p-4 gap-4`}  >
+            {/* <div className={`${down1 ? "hidden" : "flex"} fixed z-30  bg-[var(--color1)]  flex-col items-center top-14 left-0 right-0 bottom-0 p-4 gap-4`}  >
                 <div onClick={() => DownWindow(true, "/")} className={`class-1 ${navi === "home" && "active-navi"}`}  >Home</div>
                 <div onClick={() => DownWindow(true, "/chat")} className={`class-1 ${navi === "chat" && "active-navi"}`} >Chat</div>
                 <div onClick={() => DownWindow(true, "/groups")} className={`class-1 ${navi === "groups" && "active-navi"}`} >Groups</div>
@@ -75,7 +75,7 @@ export const Nav = () => {
                 <div onClick={() => DownWindow(true, "/")} className={`class-1 ${navi === "home" && "active-navi"}`}  >Home</div>
                 <div onClick={() => DownWindow(true, "/chat")} className={`class-1 ${navi === "chat" && "active-navi"}`} >Chat</div>
                 <div onClick={() => DownWindow(true, "/groups")} className={`class-1 ${navi === "groups" && "active-navi"}`} >Groups</div>
-            </div>
+            </div> */}
 
             
 

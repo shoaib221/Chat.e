@@ -93,6 +93,7 @@ export const AuthProvider = ({ children }) => {
             setUser(fullUser);
         } catch (err) {
             toast.error("Authentication failed");
+            console.dir(err);
             setUser(null);
         } finally {
             setLoading(false);
