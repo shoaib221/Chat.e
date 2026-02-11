@@ -6,7 +6,7 @@ export const Message1 = ( { message } ) => {
     const { user } = useAuthContext();
 
     return (
-        <div className={`${ message.receiver === user.username ? "received" : "sent" } w-[70%] p-2 rounded-lg my-2`} >
+        <div className={`${ message.receiver === user.username ? "received" : "sent" } max-w-[70%] p-2 rounded-lg my-2`} >
             { message.text && <p>{message.text}</p> } 
 
             { message.audio && <audio  controls>

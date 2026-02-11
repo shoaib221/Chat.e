@@ -7,6 +7,7 @@ import { AiOutlinePicture } from "react-icons/ai";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import { LuAudioLines } from "react-icons/lu";
 import { Message1 } from "@/react-library/miscel/message";
+import './chat.css';
 
 
 export const Chat = () => {
@@ -14,7 +15,7 @@ export const Chat = () => {
 
     return (
         <div className="flex h-[calc(100vh-60px)] gap-4" >
-            <Users setPartner={setPartner} />
+            <Users setPartner={setPartner} partner={partner} />
             {partner && <ChatBox partner={partner} />}
         </div>
     )
@@ -25,8 +26,6 @@ const Users = (props) => {
     const [users, setUsers] = useState(null);
     const { user, axiosInstance } = useAuthContext();
     const { onlineUsers } = useSocketContext();
-
-
 
     async function FetchUsers() {
         try {
@@ -45,8 +44,11 @@ const Users = (props) => {
     }, [user])
 
     return (
-        <div className="flex flex-col min-w-80 gap-4"  >
-            {users && users.map(elem => <p onClick={() => props.setPartner(elem)} >{elem.name} { onlineUsers[elem.username] ? "(online)" : "(offline)"   } </p>)}
+        <div className="flex flex-col min-w-80 gap-4 border-r-2 border-(--color1a)"  >
+            {users && users.map(elem => <p onClick={() => props.setPartner(elem)} className={`${ elem?.username === props?.partner?.username ? "bg-(--color1a)": "" } flex items-center gap-2 p-2`} >
+                <div className={`h-6 w-6 rounded-full bg-cover bg-top`} style={{ backgroundImage: `url(${ elem.photo })` }} ></div> {elem.name} 
+                {   onlineUsers[elem.username] && <span className="h-2 w-2 bg-green-400 rounded-full"></span>     }
+                </p>)}
         </div>
     )
 }
@@ -55,8 +57,12 @@ const Users = (props) => {
 const ChatBox = ({ partner }) => {
     const [messages, setMessages] = useState(null);
     const { user, axiosInstance, axiosFormData } = useAuthContext();
-    const { socket } = useSocketContext();
-    const { register, reset, handleSubmit } = useForm();
+    const { socket, onlineUsers } = useSocketContext();
+    const { register, reset, handleSubmit, watch } = useForm();
+
+    let image = watch("image");
+    let video = watch("video");
+    let audio = watch("audio");
 
 
     async function FetchMessage() {
@@ -67,6 +73,10 @@ const ChatBox = ({ partner }) => {
             console.log(err);
         }
     }
+
+    useEffect(() => {
+        console.log(image, video, audio);
+    }, [image, video, audio])
 
 
     useEffect(() => {
@@ -143,10 +153,7 @@ const ChatBox = ({ partner }) => {
             console.log(newMessages);
 
             setMessages(newMessages);
-
-
-
-
+            reset();
         } catch (err) {
             console.log(err);
         }
@@ -154,37 +161,44 @@ const ChatBox = ({ partner }) => {
 
     return (
         <div className="relative h-[calc(100vh-60px)] grow" >
-            <div className="h-20 absolute top-0 left-0 right-0 bg-(--color1) z-10" >
-                {partner.name}
+            <div className="h-10 absolute top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center" >
+                {partner.name} {  onlineUsers[partner.username] ? <div className="h-2 w-2 rounded-full bg-green-400" ></div> : ""   }
             </div>
 
-            <div className="overflow-auto py-20 max-h-[calc(100vh-60px)]" >
+            <div className="overflow-auto py-20 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >
                 {messages && messages.map(elem => <Message1 message={elem} key={elem._id} />)}
             </div>
 
             <div className="h-20 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
                 <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center" >
 
-                    <div className="rounded-full bg-(--color1) cursor-pointer relative" >
-                        <AiOutlinePicture title="upload image" className="text-2xl" />
-                        <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute top-0 left-0 h-full w-full" />
+                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative" >
+                        { image && image.length > 0 && <div className="absolute -top-6 bg-(--color1a) text-[.8rem] rounded-full  p-2" > { image.length } </div> }
+                        <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                        <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
                     </div>
 
 
-                    <div className="rounded-full bg-(--color1) cursor-pointer relative" >
-                        <MdOutlineSlowMotionVideo title="upload video" className="text-2xl" />
-                        <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute top-0 left-0 h-full w-full" />
+                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative" >
+                        { video && video.length > 0 && <div className="absolute -top-6 bg-(--color1a) text-[.8rem] rounded-full  p-2" > { video.length } </div> }
+                        <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                        <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
                     </div>
 
-                    <div className="rounded-full bg-(--color1) cursor-pointer relative" >
-                        <LuAudioLines title="upload audio" className="text-2xl" />
-                        <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute top-0 left-0 h-full w-full" />
+                    
+
+                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative" >
+                        { audio && audio.length > 0 && <div className="absolute -top-6 bg-(--color1a) text-[.8rem] rounded-full  p-2" > { audio.length } </div> }
+                        <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                        <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
                     </div>
 
-                    <input placeholder="write" className="grow" {...register("text", { required: "" })} />
+                    
+
+                    <input placeholder="write your thoughts ..." className="grow h-full" {...register("text", { required: "" })} />
 
 
-                    <button type="submit" >
+                    <button type="submit" className="bg-(--color1a) p-2 rounded-lg hover:opacity-80" >
                         Send
                     </button>
                 </form>

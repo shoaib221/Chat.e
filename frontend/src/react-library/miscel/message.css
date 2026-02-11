@@ -2,11 +2,15 @@
 
 .received {
     margin-right: auto;
-    background-color: red;
+    
 }
 
 
 .sent {
     margin-left: auto;
-    background-color: green;
+    
+}
+
+.received, .sent {
+    background-color: var(--color1);
 }

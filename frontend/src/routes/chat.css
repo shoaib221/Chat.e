@@ -1,0 +1,10 @@
+
+
+.online, .offline {
+    border: .1rem;
+}
+
+.online {
+    border: .1rem solid rgb(0, 170, 0);
+}
+

@@ -47,7 +47,7 @@ export const Nav = () => {
 
 
     return (
-        <nav id='top' className='z-30 bg-(--color1) flex h-14 justify-between p-4 items-center fixed top-0 w-full max-w-[1800px]' >
+        <nav id='top' className='z-30 bg-(--color1) flex h-14 justify-between p-4 items-center fixed top-0 w-full max-w-[1800px] border-b-2 border-(--color1a)' >
             <Logo />
 
             {/* <div onClick={ () => navigate('/') } style={{ cursor: 'pointer' }} className={ `${location.pathname === '/'? 'hilit-1': ''}` } >Home</div> */}
