@@ -36,19 +36,39 @@ const ScrollToTop = () => {
 
 export const Nav = () => {
     const { ThemeChoice } = useThemeContext()
-    const { down1, DownWindow, navi, LargeScreenTag } = useNavContext();
-    const [opener1, setOpener1] = useState(false)
-    const { user, LogOut } = useAuthContext()
+    const {  navi, Navigate  } = useNavContext();
+    const { user, LogOut } = useAuthContext();
+    const [ navBar, setNavBar ] = useState(false)
 
-    function Opener1() {
-        setOpener1(prev => !prev)
-    }
+    
 
 
 
     return (
         <nav id='top' className='z-30 bg-(--color1) flex h-14 justify-between p-4 items-center fixed top-0 w-full max-w-[1800px] border-b-2 border-(--color1a)' >
+            <div className='block lg:hidden' onClick={ () => setNavBar(true) } >
+                Bar
+            </div>
+
+            {/* Small Screen sidebar */}
+            <div className={ `sidebar ${ navBar? 'open' : "" }` } >
+                <div className="absolute top-0 left-0 right-0 h-10 bg-red-800 text-white text-center" onClick={ () => setNavBar(false) } > Close </div>
+                <div className='h-8' ></div>
+                <div onClick={ () => Navigate('/') } >Chat</div>
+                <div onClick={ () => Navigate('/groups') } >Groups</div>
+            </div>
+
+
+
             <Logo />
+
+
+            <div className='hidden lg:flex gap-2 p-2' >
+                <div onClick={ () => Navigate('/') } className={ `oplink ${ navi === 'chat' && 'selected' }` } >Chat</div>
+                <div onClick={ () => Navigate('/groups') }  className={ `oplink ${ navi === 'groups' && 'selected' }` } >Groups</div>
+            </div>
+
+            
 
             {/* <div onClick={ () => navigate('/') } style={{ cursor: 'pointer' }} className={ `${location.pathname === '/'? 'hilit-1': ''}` } >Home</div> */}
 

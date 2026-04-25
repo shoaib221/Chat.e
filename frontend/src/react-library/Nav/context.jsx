@@ -5,14 +5,13 @@ import { motion } from "framer-motion";
 
 const NavContext = createContext();
 
-export const useNavContext = () => useContext(NavContext)
+export const useNavContext = () => useContext(NavContext);
 
 
 export const NavProvider = ({ children }) => {
-    const [down1, setDown1] = useState(true)
-    const navigate = useNavigate()
-    const [navi, selectNavi] = useState("home")
-    const location = useLocation()
+    const navigate = useNavigate();
+    const [navi, selectNavi] = useState("home");
+    const location = useLocation();
 
     const [screen, setSize] = useState({
         width: window.innerWidth,
@@ -31,41 +30,29 @@ export const NavProvider = ({ children }) => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    
 
-    function DownWindow(wind, path) {
-
-        setDown1(wind)
-        if (path) navigate(path)
-
+    function Navigate(path) {
+        
+        navigate(path)
     }
+
 
     useEffect(() => {
         //console.log("Location change")
         let path = location.pathname.toLowerCase();
-        if (path.includes("chat")) selectNavi("chat");
-        else if (path.includes("groups")) selectNavi("groups");
-        else selectNavi("home");
+        
+        if (path.includes("groups")) selectNavi("groups");
+        else selectNavi("chat");
     }, [location?.pathname])
 
 
-    function handleResize() {
 
-        if (window.innerWidth > 768) {
-            setDown1(true)
-        }
-    }
-
-    useEffect(() => {
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
-    }, [])
 
 
 
 
     return (
-        <NavContext.Provider value={{ down1, setDown1, DownWindow, navi, screen }} >
+        <NavContext.Provider value={{ navi, screen, Navigate }} >
             {children}
         </NavContext.Provider>
     )

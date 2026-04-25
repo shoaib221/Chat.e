@@ -1,3 +1,5 @@
+
+
 import { useAuthContext } from "@/react-library/auth/context";
 import { useSocketContext } from "@/react-library/socket/socket";
 import { useEffect, useState } from "react";
@@ -13,12 +15,14 @@ import { PrivateRoute } from "@/react-library/auth/RestrictedRoutes";
 
 export const Chat = () => {
     const [partner, setPartner] = useState(null);
+    const { Tag, Toggle } = useSmallUsers({ setPartner, partner });
 
     return (
         <PrivateRoute>
             <div className="flex h-[calc(100vh-60px)] gap-4" >
                 <Users setPartner={setPartner} partner={partner} />
-                {partner && <ChatBox partner={partner} />}
+                {partner && <ChatBox Toggle={Toggle} partner={partner} />}
+                <Tag />
             </div>
         </PrivateRoute>
     )
@@ -47,7 +51,7 @@ const Users = (props) => {
     }, [user])
 
     return (
-        <div className="flex flex-col min-w-80 gap-2 p-2"  >
+        <div className="lg:flex flex-col min-w-80 gap-2 p-2 hidden"  >
             {users && users.map(elem => <p onClick={() => props.setPartner(elem)} className={`${elem?.username === props?.partner?.username ? "bg-(--color1a)" : ""} cursor-pointer hover:bg-(--color1a) flex items-center gap-2 p-2 rounded-lg`} >
                 <div className={`h-6 w-6 rounded-full bg-cover bg-top`} style={{ backgroundImage: `url(${elem.photo})` }} ></div> {elem.name}
                 {onlineUsers[elem.username] && <span className="h-2 w-2 bg-green-400 rounded-full"></span>}
@@ -57,7 +61,59 @@ const Users = (props) => {
 }
 
 
-const ChatBox = ({ partner }) => {
+const useSmallUsers = (props) => {
+    const [users, setUsers] = useState(null);
+    const { user, axiosInstance } = useAuthContext();
+    const { onlineUsers } = useSocketContext();
+    const [open, setOpen] = useState(false);
+
+    async function FetchUsers() {
+        try {
+            let res = await axiosInstance.get('/chat/fetch-users');
+            setUsers(res.data.users);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    function Toggle() {
+        setOpen(prev => !prev)
+    }
+
+    function SelectPartner(elem) {
+        props.setPartner(elem)
+        setOpen(false)
+
+    }
+
+    useEffect(() => {
+        if (!user) return;
+
+        FetchUsers();
+
+    }, [user])
+
+    const Tag = () => (
+        <div className={`${open ? 'open' : ""} sidebar  bg-(--color1)`}  >
+
+            <div className="absolute top-0 left-0 right-0 h-10 bg-red-800 text-white text-center" onClick={() => setOpen(false)} >Close</div>
+            <div className="h-10" ></div>
+
+            {users && users.map(elem => <p onClick={() => SelectPartner(elem)} className={`${elem?.username === props?.partner?.username ? "bg-(--color1a)" : ""} cursor-pointer hover:bg-(--color1a) flex items-center gap-2 p-2 rounded-lg`} >
+                <div className={`h-6 w-6 rounded-full bg-cover bg-top`} style={{ backgroundImage: `url(${elem.photo})` }} ></div> {elem.name}
+                {onlineUsers[elem.username] && <span className="h-2 w-2 bg-green-400 rounded-full"></span>}
+            </p>)}
+
+
+        </div>
+    )
+
+    return { Tag, Toggle }
+}
+
+import { uploadToCloudinary } from "@/react-library/Media/cloudinary_upload";
+
+const ChatBox = ({ partner, Toggle }) => {
     const [messages, setMessages] = useState(null);
     const { user, axiosInstance, axiosFormData } = useAuthContext();
     const { socket, onlineUsers } = useSocketContext();
@@ -77,8 +133,6 @@ const ChatBox = ({ partner }) => {
         }
     }
 
-    
-
 
     useEffect(() => {
         if (!socket) return;
@@ -89,12 +143,11 @@ const ChatBox = ({ partner }) => {
 
 
 
-            setMessages(prevMessages => {
+            setMessages(prevnew_messages => {
 
-                let newMessages = prevMessages;
-                newMessages = newMessages.concat(data.messages);
-                console.log(newMessages);
-                return newMessages;
+                let new_messages = prevnew_messages;
+                new_messages = new_messages.concat(data.messages);
+                return new_messages;
             });
         };
 
@@ -119,51 +172,66 @@ const ChatBox = ({ partner }) => {
     async function SendMessage(data) {
         try {
 
-            const formData = new FormData();
+            let new_messages = []
 
-            console.log(data.image.length);
 
-            if (data.image?.length > 0) Array.from(data.image).forEach((file) => {
-                formData.append("image", file);
-                console.log("image");
-            });
 
-            if (data.video?.length > 0) Array.from(data.video).forEach((file) => {
-                formData.append("video", file);
-                console.log("video");
-            });
+            if (data.image?.length > 0) {
+                for (const elem of Array.from(data.image)) {
+                    const content = await uploadToCloudinary(elem, "image");
 
-            if (data.audio?.length > 0) Array.from(data.audio).forEach((file) => {
-                formData.append("audio", file);
-                console.log('audio');
-            });
+                    new_messages.push({ content, type: "image" })
+                }
+            }
 
-            if (data.text && data.text.trim() !== "") formData.append("text", data.text);
+            if (data.video?.length > 0) {
+                for (const elem of Array.from(data.video)) {
+                    const content = await uploadToCloudinary(elem, "video");
 
-            formData.append("receiver", partner.username);
+                    new_messages.push({ content, type: "video" })
+                }
+            }
 
-            console.log(formData)
+            if (data.audio?.length > 0) {
+                for (const elem of Array.from(data.audio)) {
+                    const content = await uploadToCloudinary(elem, "audio");
+                    new_messages.push({ content, type: "audio" })
+                }
+            }
 
-            let res = await axiosFormData.post('/chat/send-message', formData);
 
-            console.log(res.data);
 
-            let newMessages = messages;
-            newMessages = newMessages.concat(res.data.messages);
+            if(data.text) new_messages.push({ type: "text", content: data.text })
 
-            console.log(newMessages);
+            console.log(new_messages)
 
-            setMessages(newMessages);
+
+
+            let res = await axiosInstance.post('/chat/send-message', { receiver: partner.username, messages: new_messages });
+
+
+
+            new_messages = messages;
+            new_messages = new_messages.concat(res.data.messages);
+
+            
+
+            setMessages(new_messages);
             reset();
+
         } catch (err) {
             console.log(err);
+            alert('error')
         }
     }
 
     return (
         <div className="relative h-[calc(100vh-60px)] grow bg-(--color1a)" >
-            <div className="h-10 absolute top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center" >
+            <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between" >
                 {partner.name} {onlineUsers[partner.username] ? <div className="h-2 w-2 rounded-full bg-green-400" ></div> : ""}
+
+
+                <div onClick={Toggle} className="block lg:hidden" > Contacts </div>
             </div>
 
             <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >

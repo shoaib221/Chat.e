@@ -37,7 +37,7 @@ export const ProfileLogo1 = ({ image = "/avatar.jpg", }) => {
                 className="w-10 h-10 rounded-full overflow-hidden border-2 border-(--color4) focus:outline-none"
             >
                 <img
-                    src={user?.photo}
+                    src={user?.photoURL}
                     alt="Profile"
                     className="w-full h-full object-cover"
                 />
