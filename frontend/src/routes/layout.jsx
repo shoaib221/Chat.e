@@ -19,24 +19,20 @@ export const Entry = () => {
     return (
         <>
             
-
             <Nav />
 
             <div className='h-14' ></div>
 
-            
             <Outlet />
             
-            
-                
-            
-            
-            
-
             
         </>
     );
 };
+
+
+
+
 
 
 

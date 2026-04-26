@@ -10,7 +10,7 @@ export const useNavContext = () => useContext(NavContext);
 
 export const NavProvider = ({ children }) => {
     const navigate = useNavigate();
-    const [navi, selectNavi] = useState("home");
+    const [navi, selectNavi] = useState("/");
     const location = useLocation();
 
     const [screen, setSize] = useState({
@@ -34,15 +34,16 @@ export const NavProvider = ({ children }) => {
     function Navigate(path) {
         
         navigate(path)
+        selectNavi('/')
     }
 
 
     useEffect(() => {
         //console.log("Location change")
         let path = location.pathname.toLowerCase();
+        if(path !== '/') selectNavi('//')
         
-        if (path.includes("groups")) selectNavi("groups");
-        else selectNavi("chat");
+        
     }, [location?.pathname])
 
 

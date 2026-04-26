@@ -2,27 +2,26 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../auth/context";
 import { FaSearch } from "react-icons/fa";
 import { Loading } from "../miscel/Loading";
+import '../Buttons/button.css';
+
+//
 
 
-// 
 
-
-
-export function usePagination11({ url }) {
+export function usePagination({ url }) {
     const [page, setPage] = useState(1);
     const [pages, setPages] = useState(1);
-    const [searchBy, setSearchBy] = useState("")
     const [searchFor, setSearchFor] = useState("");
-    const [limit, setLimit] = useState(10)
-    const { axiosInstance, user } = useAuthContext()
-    const [data, setData] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [limit, setLimit] = useState(10);
+    const { axiosInstance, user } = useAuthContext();
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     async function fetchData() {
         try {
-            let res = await axiosInstance.get(`${url}?searchBy=${searchBy}&searchFor=${searchFor}&page=${page}&limit=${limit}`)
+            let res = await axiosInstance.get(`${url}?searchFor=${searchFor}&page=${page}&limit=${limit}`);
             setPages(res.data.pages);
-            setData(res.data.data)
+            setData(res.data.data);
         } catch (err) {
             alert("err")
             console.dir(err)
@@ -38,7 +37,7 @@ export function usePagination11({ url }) {
 
 
 
-    return { data, page, setPage, pages, setPages, searchBy, setSearchBy, searchFor, setSearchFor, loading, fetchData }
+    return { data, page, setPage, pages, setPages, searchFor, setSearchFor, loading, fetchData }
 
 
 }
@@ -50,17 +49,17 @@ export const PageTag = ( { page, pages, setPage, loading, data } ) => {
     if(loading) return <Loading />
 
     if( data && data.length > 0 ) return (
-        <div className="flex gap-2" >
-            { page > 1 && <div onClick={ () => setPage( prev => prev-1 ) } >Previous</div> }
+        <div className="flex gap-2 justify-center" >
+            { page > 1 && <div onClick={ () => setPage( prev => prev-1 ) } className="button-2" >Previous</div> }
 
             { [ ...Array(pages).keys() ].map( i => (
-                <div key={i+1} onClick={ () => setPage(i+1) } >
+                <div key={i+1} onClick={ () => setPage(i+1) } className="button-2" >
                     {i+1}
                 </div>
             ) ) }
 
 
-            { page < pages && <div onClick={() => setPage( prev => prev +1 ) } >Next</div> }
+            { page < pages && <div onClick={() => setPage( prev => prev +1 ) } className="button-2" >Next</div> }
 
 
         </div>
@@ -69,18 +68,12 @@ export const PageTag = ( { page, pages, setPage, loading, data } ) => {
     return <div className="text-center" >No data found</div>
 }
 
-export function SearchTag({ searchBy, searchFor, setSearchBy, setSearchFor, fetchData, searchParams }) {
+export function SearchTag({  searchFor,  setSearchFor, fetchData  }) {
 
 
     return (
         <div className="flex gap-2 w-full max-w-200 px-4 rounded-2xl border-2 items-center mx-auto" >
-            <select value={searchBy} onChange={(e) => setSearchBy(e.target.value)}  >
-                {searchParams?.length > 0 && searchParams.map((elem, i) => (
-                    <option key={i} value={elem.value} >
-                        {elem.label}
-                    </option>
-                ))}
-            </select>
+            
 
             <input value={searchFor}  onChange={(e) => setSearchFor( e.target.value )} className="grow" />
 
@@ -92,7 +85,7 @@ export function SearchTag({ searchBy, searchFor, setSearchBy, setSearchFor, fetc
 
 
 
-function Users () {
+function Users (  ) {
     const { data, loading, page, pages, setPage, searchBy, setSearchBy, searchFor, setSearchFor, fetchData } = usePagination11( { url: "/chat/users" } );
 
     const searchParams = [

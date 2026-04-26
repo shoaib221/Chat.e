@@ -16,7 +16,7 @@ import { Footer } from '@/react-library/Nav/Footer';
 
 
 
-export const Home = () => {
+const Home = () => {
     const { axiosInstance, user } = useAuthContext()
     const [ students, setStudents ] = useState([])
     

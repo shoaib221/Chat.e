@@ -10,7 +10,7 @@ import { Auth } from '@/react-library/auth/auth.jsx';
 import { AuthProvider } from '@/react-library/auth/context.jsx';
 import { Test } from './test/test.jsx';
 import { UpdateProfile } from '@/react-library/auth/UpdateProfile.jsx';
-import { Home } from '@/routes/Home.jsx';
+import { Home } from './routes/home/home.jsx';
 import { Entry } from '@/routes/layout.jsx';
 import { NavProvider } from './react-library/Nav/context.jsx';
 import { ThemeProvider } from '@/react-library/Theme/Theme.jsx';
@@ -37,7 +37,8 @@ const App = () => {
                     <ToastContainer />
                     <Routes>
                         <Route path='/' element={<Entry />} >
-                            <Route index element={<Chat />} />
+                            <Route index element={ <Home /> } />
+                            <Route path='chat/:id' element={ <Chat /> } />
                             <Route path='auth' element={<Auth />} />
                             <Route path='test' element={<Test />} />
                             <Route path='profile' element={<UpdateProfile />} />

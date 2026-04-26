@@ -11,22 +11,9 @@ import { LuAudioLines } from "react-icons/lu";
 import { Message1 } from "@/react-library/miscel/message";
 import './chat.css';
 import { PrivateRoute } from "@/react-library/auth/RestrictedRoutes";
+import { useParams } from "react-router-dom";
 
 
-export const Chat = () => {
-    const [partner, setPartner] = useState(null);
-    const { Tag, Toggle } = useSmallUsers({ setPartner, partner });
-
-    return (
-        <PrivateRoute>
-            <div className="flex h-[calc(100vh-60px)] gap-4" >
-                <Users setPartner={setPartner} partner={partner} />
-                {partner && <ChatBox Toggle={Toggle} partner={partner} />}
-                <Tag />
-            </div>
-        </PrivateRoute>
-    )
-}
 
 
 const Users = (props) => {
@@ -112,12 +99,18 @@ const useSmallUsers = (props) => {
 }
 
 import { uploadToCloudinary } from "@/react-library/Media/cloudinary_upload";
+import { Loading } from "@/react-library/miscel/Loading";
+import { NotFound } from "@/react-library/miscel/NotFound";
 
-const ChatBox = ({ partner, Toggle }) => {
+
+export const Chat = () => {
     const [messages, setMessages] = useState(null);
     const { user, axiosInstance, axiosFormData } = useAuthContext();
     const { socket, onlineUsers } = useSocketContext();
     const { register, reset, handleSubmit, watch } = useForm();
+    const { id } = useParams()
+    const [partner, setPartner] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     let image = watch("image");
     let video = watch("video");
@@ -125,11 +118,17 @@ const ChatBox = ({ partner, Toggle }) => {
 
 
     async function FetchMessage() {
+        setLoading(true)
         try {
-            let res = await axiosInstance.post('/chat/fetch-message', { partner });
+            let res = await axiosInstance.post('/chat/fetch-message', { id });
             setMessages(res.data.messages);
+            setPartner( res.data.partner );
+            console.log( res.data )
         } catch (err) {
             console.log(err);
+        }
+        finally {
+            setLoading(false);
         }
     }
 
@@ -162,11 +161,11 @@ const ChatBox = ({ partner, Toggle }) => {
 
 
     useEffect(() => {
-        if (!user || !partner) return;
+        if (!user || !id) return;
 
         FetchMessage();
 
-    }, [user, partner]);
+    }, [id, user]);
 
 
     async function SendMessage(data) {
@@ -225,13 +224,17 @@ const ChatBox = ({ partner, Toggle }) => {
         }
     }
 
+    if( loading ) return <Loading />
+
+    if( !partner || !messages) return <NotFound />
+
     return (
         <div className="relative h-[calc(100vh-60px)] grow bg-(--color1a)" >
             <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between" >
                 {partner.name} {onlineUsers[partner.username] ? <div className="h-2 w-2 rounded-full bg-green-400" ></div> : ""}
 
 
-                <div onClick={Toggle} className="block lg:hidden" > Contacts </div>
+                
             </div>
 
             <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >
