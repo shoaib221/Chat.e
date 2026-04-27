@@ -1,5 +1,8 @@
 
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
+import { type } from "os";
+import { User } from "../auth/model.js";
+
 
 const MessageSchema = new mongoose.Schema({
 
@@ -11,34 +14,37 @@ const MessageSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    text: {
-        type: String
+    type: {
+        type: String,
+        required: true
     },
-    media: {
-        type: String
+    content: {
+        type: String,
+        required: true
     }
-    
-}, { timestamps: true } );
+
+}, { timestamps: true });
 
 
-const Message = mongoose.model('Message', MessageSchema);
+export const Message = mongoose.model('Message', MessageSchema);
 
 
-const GroupSchema  = new mongoose.Schema({
-    name : {
+const GroupSchema = new mongoose.Schema({
+    name: {
         type: String,
         required: true
     },
-    admin : {
+    admin: {
         type: String,
         required: true
-    }},
+    }
+},
     { timestamps: true }
 )
 
-GroupSchema.index( { name: 1, admin: 1  }, { unique: true } )
+GroupSchema.index({ name: 1, admin: 1 }, { unique: true })
 
-const Group = mongoose.model("Group", GroupSchema)
+export const Group = mongoose.model("Group", GroupSchema);
 
 const GroupMembersSchema = new mongoose.Schema({
     group_id: {
@@ -57,17 +63,17 @@ const GroupMembersSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    admin : {
+    admin: {
         type: String,
         required: true
     }
 },
-    {timestamps: true}
+    { timestamps: true }
 )
 
-GroupMembersSchema.index( { group_id:1, member:1 }, { unique: true } )
+GroupMembersSchema.index({ group_id: 1, member: 1 }, { unique: true })
 
-const GroupMembers = mongoose.model("GroupMember", GroupMembersSchema )
+export const GroupMembers = mongoose.model("GroupMember", GroupMembersSchema)
 
 const GroupMessageSchema = new mongoose.Schema({
     group_id: {
@@ -80,7 +86,7 @@ const GroupMessageSchema = new mongoose.Schema({
     },
     text: {
         type: String
-    }, 
+    },
     mediaType: {
         type: String
     },
@@ -94,7 +100,7 @@ const GroupMessageSchema = new mongoose.Schema({
 })
 
 
-const GroupMessage = mongoose.model("GroupMessage", GroupMessageSchema );
+export const GroupMessage = mongoose.model("GroupMessage", GroupMessageSchema);
 
 
 const StorySchema = new mongoose.Schema({
@@ -110,10 +116,41 @@ const StorySchema = new mongoose.Schema({
         type: String,
         required: true
     }
-}, { timestamps: true } )
+}, { timestamps: true })
 
 
-const Story = mongoose.model("Story", StorySchema );
+export const Story = mongoose.model("Story", StorySchema);
 
 
-module.exports = { Message, Group, GroupMessage, GroupMembers, Story };
+
+const FriendshipSchema = new mongoose.Schema({
+
+    senderId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: User
+    },
+    receiverId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: User
+    },
+    status: {
+        type: String,
+        required: true,
+        default: 'pending'
+    },
+    accpetedAt: {
+        type: Date,
+    }
+
+}, { timestamps: true });
+
+
+FriendshipSchema.index(
+    { senderId: 1, receiverId: 1 },
+    { unique: true }
+);
+
+
+export const Friendship = mongoose.model('Friendship', FriendshipSchema);

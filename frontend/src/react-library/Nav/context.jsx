@@ -33,8 +33,8 @@ export const NavProvider = ({ children }) => {
 
     function Navigate(path) {
         
-        navigate(path)
-        selectNavi('/')
+        navigate(path);
+        selectNavi('/');
     }
 
 
