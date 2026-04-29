@@ -173,21 +173,17 @@ export const Chat = () => {
 
             let new_messages = []
 
-
-
             if (data.image?.length > 0) {
                 for (const elem of Array.from(data.image)) {
                     const content = await uploadToCloudinary(elem, "image");
-
-                    new_messages.push({ content, type: "image" })
+                    new_messages.push({ content, type: "image" });
                 }
             }
 
             if (data.video?.length > 0) {
                 for (const elem of Array.from(data.video)) {
                     const content = await uploadToCloudinary(elem, "video");
-
-                    new_messages.push({ content, type: "video" })
+                    new_messages.push({ content, type: "video" });
                 }
             }
 
@@ -198,22 +194,14 @@ export const Chat = () => {
                 }
             }
 
+            if(data.text) new_messages.push({ type: "text", content: data.text });
 
-
-            if(data.text) new_messages.push({ type: "text", content: data.text })
-
-            console.log(new_messages)
-
-
+            console.log(new_messages);
 
             let res = await axiosInstance.post('/chat/send-message', { receiver: partner.username, messages: new_messages });
 
-
-
             new_messages = messages;
             new_messages = new_messages.concat(res.data.messages);
-
-            
 
             setMessages(new_messages);
             reset();
@@ -231,10 +219,9 @@ export const Chat = () => {
     return (
         <div className="relative h-[calc(100vh-60px)] grow bg-(--color1a)" >
             <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between" >
-                {partner.name} {onlineUsers[partner.username] ? <div className="h-2 w-2 rounded-full bg-green-400" ></div> : ""}
-
-
-                
+                <div className="flex gap-2 items-center" >
+                    {partner.name} {onlineUsers[partner.username] ? <div className="h-2 w-2 rounded-full bg-green-400" ></div> : ""}
+                </div>
             </div>
 
             <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >
@@ -274,6 +261,7 @@ export const Chat = () => {
                     <button type="submit" className="bg-(--color1a) p-2 rounded-lg hover:opacity-80" >
                         Send
                     </button>
+
                 </form>
 
 

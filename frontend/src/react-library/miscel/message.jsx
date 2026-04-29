@@ -1,13 +1,15 @@
 import { useAuthContext } from "../auth/context";
+import { useSocketContext } from "../socket/socket";
 import "./message.css";
 
 
 export const Message1 = ( { message, partner } ) => {
     const { user } = useAuthContext();
+    const { onlineUsers } = useSocketContext()
 
     return (
         <div className={`${ message.receiver === user.username ? "received" : "sent" } max-w-[70%] p-2 rounded-full my-2 flex gap-2`} >
-            <div className="h-8 w-8 min-w-8 rounded-full bg-cover bg-top" style={{ backgroundImage: `url(${ message.receiver === user.username ? partner.photo : user.photo })` }} ></div>
+            <div className={`h-8 w-8 min-w-8 rounded-full border-2 bg-cover bg-top ${ onlineUsers[message.sender] && message.receiver === user.username ? 'border-green-600' : 'border-(--color1)' }`} style={{ backgroundImage: `url(${ message.receiver === user.username ? partner.photo : user.photo })` }} ></div>
 
             { message.type === 'text' && <p className="bg-(--color1) px-4 py-1 rounded-lg" >{message.content}</p> } 
 

@@ -2,6 +2,7 @@ import { io } from "socket.io-client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { useAuthContext } from "../auth/context";
 import { auth } from "../auth/firebase.config";
+import { baseURL } from "../auth/context";
 
 const SocketContext = createContext();
 export const useSocketContext = () => useContext(SocketContext);
@@ -20,7 +21,7 @@ export const SocketProvider = ({ children }) => {
         const connectSocket = async () => {
             const token = await auth.currentUser.getIdToken(true); // 🔥 FIX
 
-            socketInstance = io("http://localhost:4000", {
+            socketInstance = io(baseURL, {
                 transports: ["websocket"],
                 auth: { token },
             });
