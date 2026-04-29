@@ -7,11 +7,9 @@ This is a real-time chat application that supports one-to-one and group messagin
 ## ✨ Features
 
 - 💬 One-to-one private messaging
-- 👥 Group chat functionality
 - ⚡ Real-time messaging with WebSockets
 - 🖼 Send and receive images
-- 🎥 Share videos
-- 🎤 Voice message (audio recording) support
+- 🎥 Share videos & audios
 - 🟢 Online/offline user status
 - 🔔 Real-time message updates
 - 🔐 Secure communication 
