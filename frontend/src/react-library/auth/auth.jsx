@@ -45,7 +45,7 @@ const LogIn = ({ toggle }) => {
 
 
     return (
-        <div className='flex flex-col justify-center items-center box-1 p-4 w-full max-w-[500px] bg-white/80' >
+        <div className='text-(--color2) bg-(--color1)/80 box-1 items-center' >
             <EmailLogin />
 
             <Breaker message={'or'} />
@@ -71,7 +71,7 @@ const LogIn = ({ toggle }) => {
 const Register = ({ toggle }) => {
 
     return (
-        <div className='flex flex-col justify-center items-center box-1 p-4 w-full max-w-[500px] bg-white/80' >
+        <div className='flex flex-col justify-center items-center box-1 p-4 w-full max-w-[500px] bg-(--color1)/80 text-(--color2)' >
             <EmailRegister />
 
             <Breaker message={'or'} />
@@ -113,7 +113,7 @@ const ForgotPassword = ({ toggle }) => {
     }
 
     return (
-        <div className='box-1 flex flex-col justify-center items-center gap-4 w-full max-w-[500px] bg-white/80' >
+        <div className='box-1 flex flex-col justify-center items-center gap-4 w-full max-w-[500px] bg-(--color1)/80' >
             <div className='text-3xl text-center font-bold' > Reset Password </div>
             <input type='email' placeholder='Type Your Email' value={email}
                 onChange={(e) => setEmail(e.target.value)} className='w-full' />
@@ -144,15 +144,11 @@ export const Auth = () => {
     if (loading) return <Loading />
 
     return (
-        <div className='text-black p-2 flex-1 flex flex-col h-full  bg-cover bg-center justify-center items-center' style={{ backgroundImage: 'url(/convocation.webp)' }} >
-
+        <div className='p-2 flex-1 flex flex-col h-full  bg-cover bg-center justify-center items-center' style={{ backgroundImage: 'url(/auth.jpg)' }} >
             {login === "login" && <LogIn toggle={setLogin} />}
             {login === "register" && <Register toggle={setLogin} />}
             {login === "forgot" && <ForgotPassword toggle={setLogin} />}
-
-            
         </div>
-
     )
 };
 

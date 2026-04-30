@@ -5,6 +5,7 @@ import { Users } from "./users"
 import { SentRequests } from "./sentRequests"
 import { FriendRequests } from "./friendrequests"
 import { PrivateRoute } from "@/react-library/auth/RestrictedRoutes"
+import { Groups } from "../group/groups"
 
 export function Home() {
     const [board, setBoard] = useState("friends")
@@ -20,6 +21,7 @@ export function Home() {
                     <div className={`option ${board === 'frequests' && 'selected'}`} onClick={() => setBoard('frequests')} > Friend Requests </div>
                     <div className={`option ${board === 'srequests' && 'selected'}`} onClick={() => setBoard('srequests')} > Sent Requests </div>
                     <div className={`option ${board === 'users' && 'selected'}`} onClick={() => setBoard('users')} > Find Users </div>
+                    <div className={`option ${board === 'groups' && 'selected'}`} onClick={() => setBoard('groups')} > Groups </div>
 
                 </div>
 
@@ -27,6 +29,7 @@ export function Home() {
                 {board === 'users' && <Users />}
                 {board === 'srequests' && <SentRequests />}
                 {board === 'frequests' && <FriendRequests />}
+                {board === 'groups' && <Groups />}
 
             </div>
         </PrivateRoute>

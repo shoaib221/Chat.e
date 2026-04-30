@@ -1,116 +1,30 @@
-
-
 import { useAuthContext } from "@/react-library/auth/context";
+import { uploadToCloudinary } from "@/react-library/Media/cloudinary_upload";
+import { Loading } from "@/react-library/miscel/Loading";
+import { Message1, Message2 } from "@/react-library/miscel/message";
+import { NotFound } from "@/react-library/miscel/NotFound";
 import { useSocketContext } from "@/react-library/socket/socket";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaRegSmile } from "react-icons/fa";
 import { AiOutlinePicture } from "react-icons/ai";
-import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import { LuAudioLines } from "react-icons/lu";
-import { Message1 } from "@/react-library/miscel/message";
-import './chat.css';
-import { PrivateRoute } from "@/react-library/auth/RestrictedRoutes";
+import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import { useParams } from "react-router-dom";
+import { IoSettingsOutline } from "react-icons/io5";
+import  { usePagination }  from '@/react-library/pagination/pagination2'
+import { GroupSettings } from "./group_settings";
 
 
-
-
-const Users = (props) => {
-    const [users, setUsers] = useState(null);
-    const { user, axiosInstance } = useAuthContext();
-    const { onlineUsers } = useSocketContext();
-
-    async function FetchUsers() {
-        try {
-            let res = await axiosInstance.get('/chat/fetch-users');
-            setUsers(res.data.users);
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
-
-    useEffect(() => {
-        if (!user) return;
-
-        FetchUsers();
-
-    }, [user])
-
-    return (
-        <div className="lg:flex flex-col min-w-80 gap-2 p-2 hidden"  >
-            {users && users.map(elem => <p onClick={() => props.setPartner(elem)} className={`${elem?.username === props?.partner?.username ? "bg-(--color1a)" : ""} cursor-pointer hover:bg-(--color1a) flex items-center gap-2 p-2 rounded-lg`} >
-                <div className={`h-6 w-6 rounded-full bg-cover bg-top`} style={{ backgroundImage: `url(${elem.photo})` }} ></div> {elem.name}
-                {onlineUsers[elem.username] && <span className="h-2 w-2 bg-green-400 rounded-full"></span>}
-            </p>)}
-        </div>
-    )
-}
-
-
-const useSmallUsers = (props) => {
-    const [users, setUsers] = useState(null);
-    const { user, axiosInstance } = useAuthContext();
-    const { onlineUsers } = useSocketContext();
-    const [open, setOpen] = useState(false);
-
-    async function FetchUsers() {
-        try {
-            let res = await axiosInstance.get('/chat/fetch-users');
-            setUsers(res.data.users);
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
-
-    function Toggle() {
-        setOpen(prev => !prev)
-    }
-
-    function SelectPartner(elem) {
-        props.setPartner(elem)
-        setOpen(false)
-
-    }
-
-    useEffect(() => {
-        if (!user) return;
-
-        FetchUsers();
-
-    }, [user])
-
-    const Tag = () => (
-        <div className={`${open ? 'open' : ""} sidebar  bg-(--color1)`}  >
-
-            <div className="absolute top-0 left-0 right-0 h-10 bg-red-800 text-white text-center" onClick={() => setOpen(false)} >Close</div>
-            <div className="h-10" ></div>
-
-            {users && users.map(elem => <p onClick={() => SelectPartner(elem)} className={`${elem?.username === props?.partner?.username ? "bg-(--color1a)" : ""} cursor-pointer hover:bg-(--color1a) flex items-center gap-2 p-2 rounded-lg`} >
-                <div className={`h-6 w-6 rounded-full bg-cover bg-top`} style={{ backgroundImage: `url(${elem.photo})` }} ></div> {elem.name}
-                {onlineUsers[elem.username] && <span className="h-2 w-2 bg-green-400 rounded-full"></span>}
-            </p>)}
-
-
-        </div>
-    )
-
-    return { Tag, Toggle }
-}
-
-import { uploadToCloudinary } from "@/react-library/Media/cloudinary_upload";
-import { Loading } from "@/react-library/miscel/Loading";
-import { NotFound } from "@/react-library/miscel/NotFound";
-
-
-export const Chat = () => {
+export const GroupChat = () => {
     const [messages, setMessages] = useState(null);
-    const { user, axiosInstance } = useAuthContext();
+    const { user, axiosInstance     } = useAuthContext();
     const { socket, onlineUsers } = useSocketContext();
     const { register, reset, handleSubmit, watch } = useForm();
-    const { id } = useParams()
-    const [partner, setPartner] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const { id } = useParams();
+    const [partner, setPartner] = useState(null); // group
+    const [loading, setLoading] = useState(true);
+    const [board, setBoard] = useState("message")
+
 
     let image = watch("image");
     let video = watch("video");
@@ -118,9 +32,10 @@ export const Chat = () => {
 
 
     async function FetchMessage() {
+        
         setLoading(true)
         try {
-            let res = await axiosInstance.post('/chat/fetch-message', { id });
+            let res = await axiosInstance.get(`/chat/fetch-group-message/${ id }`);
             setMessages(res.data.messages);
             setPartner( res.data.partner );
             console.log( res.data )
@@ -134,29 +49,31 @@ export const Chat = () => {
 
 
     useEffect(() => {
-        if (!socket  ||  !partner) return;
+        if (!socket) return;
+
+        
 
         const handleReceiveMessage = (data) => {
             console.log("message received:", data, partner);
-            if (partner.username !== data.messages[0].sender) return;
+            if (partner._id.toString() !== data.messages[0].group_id.toString() ) return;
 
 
 
-            setMessages(prevnew_messages => {
+            setMessages(prev_messages => {
 
-                let new_messages = prevnew_messages;
+                let new_messages = prev_messages;
                 new_messages = new_messages.concat(data.messages);
                 return new_messages;
             });
         };
 
-        socket.on("receive_message", handleReceiveMessage);
+        socket.on("receive_group_message", handleReceiveMessage);
 
         return () => {
-            socket.off("receive_message", handleReceiveMessage);
+            socket.off("receive_group_message", handleReceiveMessage);
         };
 
-    }, [socket, partner]);
+    }, [socket]);
 
 
 
@@ -198,7 +115,7 @@ export const Chat = () => {
 
             console.log(new_messages);
 
-            let res = await axiosInstance.post('/chat/send-message', { receiver: partner.username, messages: new_messages });
+            let res = await axiosInstance.post('/chat/send-group-message', { receiver: partner, messages: new_messages });
 
             new_messages = messages;
             new_messages = new_messages.concat(res.data.messages);
@@ -214,21 +131,24 @@ export const Chat = () => {
 
     if( loading ) return <Loading />
 
-    if( !partner || !messages) return <NotFound />
+    if( !partner ) return <NotFound />
 
     return (
         <div className="relative h-[calc(100vh-60px)] grow bg-(--color1a)" >
             <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between" >
-                <div className="flex gap-2 items-center" >
-                    {partner.name} {onlineUsers[partner.username] ? <div className="h-2 w-2 rounded-full bg-green-400" ></div> : ""}
+                <div className="flex gap-2 items-center justify-between" >
+                     {partner.name} 
+                    
                 </div>
+
+                <IoSettingsOutline onClick={() => setBoard( prev => prev === 'message' ? 'settings': 'message' ) } className="cursor-pointer" />
             </div>
 
-            <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >
-                {messages && messages.map(elem => <Message1 message={elem} key={elem._id} partner={partner} />)}
-            </div>
+            { board === 'message' ? <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >
+                {messages && messages.map(elem => <Message2 message={elem} key={elem._id} partner={partner} />)}
+            </div> : <GroupSettings group={ partner } members={partner?.members} admin={partner?.admin} /> }
 
-            <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
+            { board === 'message' && <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
                 <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center absolute inset-0" >
 
                     <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
@@ -265,7 +185,7 @@ export const Chat = () => {
                 </form>
 
 
-            </div>
+            </div>}
 
         </div>
     )

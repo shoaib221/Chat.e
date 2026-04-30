@@ -19,8 +19,8 @@ import { ThemeProvider } from '@/react-library/Theme/Theme.jsx';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
 import { Chat } from './routes/chat.jsx';
-import { Groups } from './routes/groups.jsx';
 import { SocketProvider } from './react-library/socket/socket.jsx';
+import { GroupChat } from './routes/group/group_chat.jsx';
 
 const queryClient = new QueryClient();
 
@@ -39,11 +39,10 @@ const App = () => {
                         <Route path='/' element={<Entry />} >
                             <Route index element={ <Home /> } />
                             <Route path='chat/:id' element={ <Chat /> } />
+                            <Route path='group-chat/:id' element={ <GroupChat /> } />
                             <Route path='auth' element={<Auth />} />
                             <Route path='test' element={<Test />} />
                             <Route path='profile' element={<UpdateProfile />} />
-                            <Route path='chat' element={ <Chat /> } />
-                            <Route path='groups' element={ <Groups /> } />
                             <Route path="*" element={<NotFound />} />
                         </Route>
                     </Routes>

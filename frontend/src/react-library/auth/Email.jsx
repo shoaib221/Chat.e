@@ -74,9 +74,9 @@ export const EmailLogin = () => {
 
     return (
         <div className='flex flex-col justify-center items-center gap-4 w-full' >
-            <div className='text-3xl font-bold text-center text-(--color-c4)' >Log In </div>
+            <div className='text-3xl font-bold text-center' >Log In </div>
 
-            <div className='grid grid-cols-[1fr_2fr] gap-4 w-full text-black' >
+            <div className='grid grid-cols-[1fr_2fr] gap-4 w-full' >
                 <label className='flex justify-end items-center' >Email</label>
                 <input type='email' value={email} onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
                 <label className='flex justify-end items-center' >Password</label>
@@ -151,7 +151,7 @@ export const EmailRegister = () => {
 
     return (
         <div className='w-full' >
-            <div className='text-3xl font-bold text-center text-(--color-c4)' >Register</div>
+            <div className='text-3xl font-bold text-center' >Register</div>
             <br />
 
             <div className='grid grid-cols-[1fr_2fr] gap-4' >
