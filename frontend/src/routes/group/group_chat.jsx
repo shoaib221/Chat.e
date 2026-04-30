@@ -11,13 +11,13 @@ import { LuAudioLines } from "react-icons/lu";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { IoSettingsOutline } from "react-icons/io5";
-import  { usePagination }  from '@/react-library/pagination/pagination2'
+import { usePagination } from '@/react-library/pagination/pagination2'
 import { GroupSettings } from "./group_settings";
 
 
 export const GroupChat = () => {
     const [messages, setMessages] = useState(null);
-    const { user, axiosInstance     } = useAuthContext();
+    const { user, axiosInstance } = useAuthContext();
     const { socket, onlineUsers } = useSocketContext();
     const { register, reset, handleSubmit, watch } = useForm();
     const { id } = useParams();
@@ -32,13 +32,13 @@ export const GroupChat = () => {
 
 
     async function FetchMessage() {
-        
+
         setLoading(true)
         try {
-            let res = await axiosInstance.get(`/chat/fetch-group-message/${ id }`);
+            let res = await axiosInstance.get(`/chat/fetch-group-message/${id}`);
             setMessages(res.data.messages);
-            setPartner( res.data.partner );
-            console.log( res.data )
+            setPartner(res.data.partner);
+            console.log(res.data)
         } catch (err) {
             console.log(err);
         }
@@ -49,13 +49,13 @@ export const GroupChat = () => {
 
 
     useEffect(() => {
-        if (!socket) return;
+        if (!socket || !partner) return;
 
-        
+        console.log(partner)
 
         const handleReceiveMessage = (data) => {
-            console.log("message received:", data, partner);
-            if (partner._id.toString() !== data.messages[0].group_id.toString() ) return;
+            console.log("message received:", data);
+            if (partner._id.toString() !== data.messages[0].group_id.toString()) return;
 
 
 
@@ -73,7 +73,7 @@ export const GroupChat = () => {
             socket.off("receive_group_message", handleReceiveMessage);
         };
 
-    }, [socket]);
+    }, [socket, partner]);
 
 
 
@@ -111,7 +111,7 @@ export const GroupChat = () => {
                 }
             }
 
-            if(data.text) new_messages.push({ type: "text", content: data.text });
+            if (data.text) new_messages.push({ type: "text", content: data.text });
 
             console.log(new_messages);
 
@@ -123,32 +123,39 @@ export const GroupChat = () => {
             setMessages(new_messages);
             reset();
 
+            document.getElementById( "end-of-message" )?.scrollIntoView({
+                behavior: "smooth",
+                block: "nearest"
+            });
+
         } catch (err) {
             console.log(err);
             alert('error')
         }
     }
 
-    if( loading ) return <Loading />
+    if (loading) return <Loading />
 
-    if( !partner ) return <NotFound />
+    if (!partner) return <NotFound />
 
     return (
         <div className="relative h-[calc(100vh-60px)] grow bg-(--color1a)" >
             <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between" >
                 <div className="flex gap-2 items-center justify-between" >
-                     {partner.name} 
-                    
+                    {partner.name}
+
                 </div>
 
-                <IoSettingsOutline onClick={() => setBoard( prev => prev === 'message' ? 'settings': 'message' ) } className="cursor-pointer" />
+                <IoSettingsOutline onClick={() => setBoard(prev => prev === 'message' ? 'settings' : 'message')} className="cursor-pointer" />
             </div>
 
-            { board === 'message' ? <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >
+            {board === 'message' ? <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >
                 {messages && messages.map(elem => <Message2 message={elem} key={elem._id} partner={partner} />)}
-            </div> : <GroupSettings group={ partner } members={partner?.members} admin={partner?.admin} /> }
+            </div> : <GroupSettings group={partner} members={partner?.members} admin={partner?.admin} />}
 
-            { board === 'message' && <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
+            <div id="end-of-message" ></div>
+
+            {board === 'message' && <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
                 <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center absolute inset-0" >
 
                     <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
