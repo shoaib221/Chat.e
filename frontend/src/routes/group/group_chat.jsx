@@ -130,7 +130,7 @@ export const GroupChat = () => {
 
         } catch (err) {
             console.log(err);
-            alert('error')
+            alert('error');
         }
     }
 
@@ -140,7 +140,7 @@ export const GroupChat = () => {
 
     return (
         <div className="relative h-[calc(100vh-60px)] grow bg-(--color1a)" >
-            <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between" >
+            <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between px-8" >
                 <div className="flex gap-2 items-center justify-between" >
                     {partner.name}
 

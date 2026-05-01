@@ -36,11 +36,17 @@ export const GroupSettings = (props) => {
     const { axiosInstance, user } = useAuthContext();
     const navigate = useNavigate();
     const { onlineUsers } = useSocketContext();
+    const [members, setMembers] = useState(null);
+    
 
 
     useEffect(() => {
         if (!props.members) return new Set();
         setMembersMap( new Set(props.members.map(m => m._id.toString()))  );
+
+        let temp = props.members;
+        temp.sort( (x, y) => x.name < y.name );
+        setMembers(temp)
     }, [props.members]);
 
 
@@ -74,16 +80,36 @@ export const GroupSettings = (props) => {
     }
 
 
+    async function LeaveGroup() {
+        try {
+            let res = await axiosInstance.post( "/chat/leave-group", {  group_id: props.group._id } )
+            toast.success( "You have successfully left this group" );
+        } catch (err) {
+            console.log(err.response.data.error)
+        }
+    }
+
+
+    async function DeleteGroup() {
+        try {
+            let res = await axiosInstance.post( "/chat/delete-group", {  group_id: props.group._id } );
+            toast.success("Group deleted successfully");
+        } catch(err) {
+            console.log(err.response.data.error)
+        }
+    }
+
+
 
     return (
-        <div className="grow justify-center items-center overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 border-2" >
-            <div className="header-11" >Settings</div>
+        <div className="grow justify-center items-center overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4" >
+            
 
             <div className="header-11" >Members</div>
 
-            <div className="flex flex-col gap-4 p-4 max-w-200 mx-auto w-full" >
+            <div className="flex flex-col gap-4 p-4 max-w-200 mx-auto w-full max-h-200 overflow-auto" >
 
-                {props.members && props.members.map((elem, _) => <div key={_} className="box-13 flex justify-between w-full" >
+                {members && members.map((elem, _) => <div key={_} className="box-13 flex justify-between w-full" >
                     <div> {elem.name} {"    "} <div className={ `inline-block h-2 w-2 rounded-full ${ onlineUsers[ elem.username ] ? "bg-green-700" : "" }` } > </div> <br /> { elem.username } </div>
 
                     {props.admin._id.toString() === elem._id.toString() ? <div>Admin</div> : props.admin._id.toString() === user._id.toString() && <button onClick={() => RemoveFromGroup(elem)} className="hover:opacity-80" >Remove From Group</button> }
@@ -93,10 +119,12 @@ export const GroupSettings = (props) => {
 
             </div>
 
+            <div className="h-10" ></div>
+
 
             <div className="header-11" >Friends</div>
 
-            <div>
+            
 
 
                 <SearchTag searchFor={searchFor} setSearchFor={setSearchFor} fetchData={fetchData} />
@@ -108,11 +136,8 @@ export const GroupSettings = (props) => {
 
                         return (<div key={i} className="box-13 flex justify-between"  >
                             <div>
-
-                                <div className="text-(--color4) flex gap-2 items-center" > {elem.name} {"  "} <div className={`h-2 w-2 rounded-full ${onlineUsers[elem.username] ? 'bg-green-600' : 'bg-(--color1)'}`} ></div> </div>
+                                <div className="text-(--color4) flex gap-2 items-center" > {elem.name} {"  "} { onlineUsers[elem.username] && <div className={`h-2 w-2 rounded-full bg-green-600`} ></div> } </div>
                                 <div> {elem.username} </div>
-
-
                             </div>
 
                             <button className="hover:opacity-80" onClick={() => AddToGroup(elem)} >Add as Member</button>
@@ -123,8 +148,18 @@ export const GroupSettings = (props) => {
 
                 <PageTag page={page} pages={pages} setPage={setPage} loading={loading} data={data} />
 
+                <div className="h-20" ></div>
 
-            </div>
+
+                <div className="flex flex-col gap-4 p-4 max-w-200 mx-auto rounded-lg border-2" >
+                    { props.admin._id.toString() === user._id.toString() ? <div className="flex justify-between items-center" >
+                        <div>Want to delete this group ?</div>
+                        <button onClick={DeleteGroup} >Delete</button>
+                    </div> : <div className="flex justify-between items-center" >
+                        <div>Want to leave this group ?</div>
+                        <button onClick={LeaveGroup} >Leave</button>
+                    </div> }
+                </div>
         </div>
     )
 }

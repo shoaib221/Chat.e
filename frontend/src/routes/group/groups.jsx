@@ -20,7 +20,7 @@ export const CreateGroup = (props) => {
         } catch(err) {
             console.log(err);
             setError(err.response.data.error)
-            toast.error("Error !");
+            toast.error(err.response.data.error);
         }
     }
 
@@ -29,11 +29,14 @@ export const CreateGroup = (props) => {
         <div>
             <div className="header-11" >Create New Group</div>
             <div className="flex w-full max-w-[600px] gap-2 mx-auto" >
+                
                 <input placeholder="Group name" className="grow input-11" value={name} onChange={(e)=> setName( e.target.value )} />
-                <button onClick={createGroup} >Submit</button>
+    
+                
+                <button onClick={createGroup} className="button-4" >Submit</button>
 
             </div>
-            { error && <div>{error}</div> }
+            
         </div>
     )
 }
@@ -50,11 +53,15 @@ export const Groups = () => {
         <div>
             <CreateGroup refetchGroups={fetchData} />
 
+            <div className="h-10" > </div>
+
             <div className="header-11" >Your Groups</div>
 
             <SearchTag searchFor={searchFor} setSearchFor={setSearchFor} fetchData={fetchData} />
 
-            { data && data.map( (elem, _) => <div onClick={ () => navigate(`/group-chat/${ elem._id.toString() }`) } className="box-13" key={_} >{ elem.name }</div> ) }
+            <div className="flex flex-col gap-4 p-4 w-full max-w-200 mx-auto" >
+                { data && data.map( (elem, _) => <div onClick={ () => navigate(`/group-chat/${ elem._id.toString() }`) } className="box-13" key={_} >{ elem.name }</div> ) }
+            </div>
 
             <PageTag page={page} pages={pages} setPage={setPage} loading={loading} data={data} />
         </div>

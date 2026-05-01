@@ -61,7 +61,7 @@ export const PageTag = ( { page, pages, setPage, loading, data } ) => {
 
             { page < pages && <div onClick={() => setPage( prev => prev +1 ) } className="button-2" >Next</div> }
 
-
+            
         </div>
     )
 

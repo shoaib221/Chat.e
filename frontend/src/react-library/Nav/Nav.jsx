@@ -56,7 +56,7 @@ export const Nav = () => {
 
 
             
-            <div onClick={ () => Navigate('/') } className={ `oplink ${ navi === '/' && 'selected' }` } >Home</div>
+            <div onClick={ () => Navigate('/') } className={ `oplink cursor-pointer ${ navi === '/' && 'selected' }` } >Home</div>
                 
             
 
