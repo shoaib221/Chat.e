@@ -85,3 +85,24 @@
     opacity: .7;
 }
 
+
+.button-5 {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+    border-radius: .5rem;
+    margin: .5rem;
+    min-width: 5rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    cursor: pointer;
+    gap: .5rem;
+}
+
+
+.button-5:hover {
+    opacity: .8;
+}

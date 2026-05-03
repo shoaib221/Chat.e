@@ -51,16 +51,13 @@ export const GroupChat = () => {
     useEffect(() => {
         if (!socket || !partner) return;
 
-        console.log(partner)
+        console.log(partner);
 
         const handleReceiveMessage = (data) => {
             console.log("message received:", data);
             if (partner._id.toString() !== data.messages[0].group_id.toString()) return;
 
-
-
             setMessages(prev_messages => {
-
                 let new_messages = prev_messages;
                 new_messages = new_messages.concat(data.messages);
                 return new_messages;
@@ -88,7 +85,7 @@ export const GroupChat = () => {
     async function SendMessage(data) {
         try {
 
-            let new_messages = []
+            let new_messages = [];
 
             if (data.image?.length > 0) {
                 for (const elem of Array.from(data.image)) {
@@ -107,7 +104,7 @@ export const GroupChat = () => {
             if (data.audio?.length > 0) {
                 for (const elem of Array.from(data.audio)) {
                     const content = await uploadToCloudinary(elem, "audio");
-                    new_messages.push({ content, type: "audio" })
+                    new_messages.push({ content, type: "audio" });
                 }
             }
 
@@ -143,7 +140,6 @@ export const GroupChat = () => {
             <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between px-8" >
                 <div className="flex gap-2 items-center justify-between" >
                     {partner.name}
-
                 </div>
 
                 <IoSettingsOutline onClick={() => setBoard(prev => prev === 'message' ? 'settings' : 'message')} className="cursor-pointer" />
