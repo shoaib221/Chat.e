@@ -21,3 +21,18 @@
     font-weight: 700;
     
 }
+
+
+.no-scrollbar {
+  overflow: auto;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE / old Edge */
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

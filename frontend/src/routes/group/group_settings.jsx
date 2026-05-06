@@ -17,20 +17,6 @@ import { toast } from "react-toastify";
 import { useConfirmer } from "@/react-library/miscel/confirmer";
 
 
-const GroupMembers = () => {
-
-    return (
-        <div>
-
-        </div>
-    )
-}
-
-
-
-
-
-
 export const GroupSettings = (props) => {
     const [membersMap, setMembersMap] = useState(new Set());
     const { data, loading, page, pages, setPage, searchFor, setSearchFor, fetchData } = usePagination({ url: "/chat/friends" });
@@ -131,7 +117,7 @@ export const GroupSettings = (props) => {
 
             <div className="flex flex-col gap-4 p-4 max-w-200 mx-auto w-full max-h-200 overflow-auto" >
 
-                {members && members.map((elem, _) => <div key={_} className="box-13 flex justify-between w-full" >
+                {members && members.map((elem, _) => <div key={_} className="box-15 flex justify-between w-full" >
                     <div> {elem.name}
                         {elem._id.toString() === user._id.toString() && <span> (You)</span>}
                         {"    "}
@@ -161,7 +147,7 @@ export const GroupSettings = (props) => {
                 {data && data.length > 0 && data.map((elem, i) => {
                     if (membersMap.has(elem._id.toString())) return <></>;
 
-                    return (<div key={i} className="box-13 flex justify-between"  >
+                    return (<div key={i} className="box-15 flex justify-between"  >
                         <div>
                             <div className="text-(--color4) flex gap-2 items-center" > {elem.name} {"  "} {onlineUsers[elem.username] && <div className={`h-2 w-2 rounded-full bg-green-600`} ></div>} </div>
                             <div> {elem.username} </div>
@@ -184,10 +170,10 @@ export const GroupSettings = (props) => {
             <div className="flex flex-col gap-4 p-4 max-w-200 mx-auto rounded-lg border-2" >
                 {props.admin._id.toString() === user._id.toString() ? <div className="flex justify-between items-center" >
                     <div>Want to delete this group ?</div>
-                    <button onClick={ConfirmDeleteInit} >Delete</button>
+                    <button onClick={ConfirmDeleteInit} style={{ color: "var(--color5)" }} className="hover:opacity-80" >Delete</button>
                 </div> : <div className="flex justify-between items-center" >
                     <div>Want to leave this group ?</div>
-                    <button onClick={ConfirmLeaveInit} >Leave</button>
+                    <button onClick={ConfirmLeaveInit} style={{ color: "var(--color5)" }} className="hover:opacity-80" >Leave</button>
                 </div>}
             </div>
         </div>

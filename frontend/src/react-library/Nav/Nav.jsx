@@ -38,31 +38,15 @@ export const Nav = () => {
     const { ThemeChoice } = useThemeContext()
     const {  navi, Navigate  } = useNavContext();
     const { user, LogOut } = useAuthContext();
-    const [ navBar, setNavBar ] = useState(false)
-
-    
-
-
+    const [ navBar, setNavBar ] = useState(false);
 
     return (
         <nav id='top' className='z-30 bg-(--color1) flex h-14 justify-between p-4 items-center fixed top-0 w-full max-w-[1800px] border-b-2 border-(--color1a)' >
             
-
-            
-
-
-
             <Logo />
 
-
-            
             <div onClick={ () => Navigate('/') } className={ `oplink cursor-pointer ${ navi === '/' && 'selected' }` } >Home</div>
-                
             
-
-
-            
-
             <ProfileLogo1 />
 
             

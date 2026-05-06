@@ -25,7 +25,7 @@ export const ProfileLogo1 = ({ image = "/avatar.jpg", }) => {
     }, []);
 
 
-    if(!user) return <button className="button-3" onClick={ () => navigate('/auth') } >Login</button>
+    if(!user) return <button className="button-4" onClick={ () => navigate('/auth') } >Login</button>
 
     return (
         <div className="relative flex gap-4 items-center" ref={dropdownRef}>

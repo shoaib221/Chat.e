@@ -60,7 +60,7 @@ export const Groups = () => {
             <SearchTag searchFor={searchFor} setSearchFor={setSearchFor} fetchData={fetchData} />
 
             <div className="flex flex-col gap-4 p-4 w-full max-w-200 mx-auto" >
-                { data && data.map( (elem, _) => <div onClick={ () => navigate(`/group-chat/${ elem._id.toString() }`) } className="box-13" key={_} >{ elem.name }</div> ) }
+                { data && data.map( (elem, _) => <div onClick={ () => navigate(`/group-chat/${ elem._id.toString() }`) } className="box-13 p-2" key={_} >{ elem.name }</div> ) }
             </div>
 
             <PageTag page={page} pages={pages} setPage={setPage} loading={loading} data={data} />

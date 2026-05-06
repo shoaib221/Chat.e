@@ -15,14 +15,12 @@ export function Home() {
         <PrivateRoute>
             <div>
 
-                <div className="flex gap-4 p-4 mx-auto justify-center my-4 overflow-auto" >
-                    <div className={`option ${board === 'friends' && 'selected'}`} onClick={() => setBoard('friends')} > Friends </div>
-
-                    <div className={`option ${board === 'frequests' && 'selected'}`} onClick={() => setBoard('frequests')} > Friend Requests </div>
-                    <div className={`option ${board === 'srequests' && 'selected'}`} onClick={() => setBoard('srequests')} > Sent Requests </div>
-                    <div className={`option ${board === 'users' && 'selected'}`} onClick={() => setBoard('users')} > Find Users </div>
-                    <div className={`option ${board === 'groups' && 'selected'}`} onClick={() => setBoard('groups')} > Groups </div>
-
+                <div className="flex mx-auto my-4 overflow-auto w-48 lg:w-full max-w-252 no-scrollbar lg:gap-2 lg:p-2" >
+                    <div className={`min-w-48 text-center option ${board === 'friends' && 'selected'}`} onClick={() => setBoard('friends')} > Friends </div>
+                    <div className={`min-w-48 text-center option ${board === 'frequests' && 'selected'}`} onClick={() => setBoard('frequests')} > Friend Requests </div>
+                    <div className={`min-w-48 text-center option ${board === 'srequests' && 'selected'}`} onClick={() => setBoard('srequests')} > Sent Requests </div>
+                    <div className={`min-w-48 text-center option ${board === 'users' && 'selected'}`} onClick={() => setBoard('users')} > Find Users </div>
+                    <div className={`min-w-48 text-center option ${board === 'groups' && 'selected'}`} onClick={() => setBoard('groups')} > Groups </div>
                 </div>
 
                 {board === 'friends' && <Friends />}

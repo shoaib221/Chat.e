@@ -12,95 +12,11 @@ import { Message1 } from "@/react-library/miscel/message";
 import './chat.css';
 import { PrivateRoute } from "@/react-library/auth/RestrictedRoutes";
 import { useParams } from "react-router-dom";
-
-
-
-
-const Users = (props) => {
-    const [users, setUsers] = useState(null);
-    const { user, axiosInstance } = useAuthContext();
-    const { onlineUsers } = useSocketContext();
-
-    async function FetchUsers() {
-        try {
-            let res = await axiosInstance.get('/chat/fetch-users');
-            setUsers(res.data.users);
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
-
-    useEffect(() => {
-        if (!user) return;
-
-        FetchUsers();
-
-    }, [user])
-
-    return (
-        <div className="lg:flex flex-col min-w-80 gap-2 p-2 hidden"  >
-            {users && users.map(elem => <p onClick={() => props.setPartner(elem)} className={`${elem?.username === props?.partner?.username ? "bg-(--color1a)" : ""} cursor-pointer hover:bg-(--color1a) flex items-center gap-2 p-2 rounded-lg`} >
-                <div className={`h-6 w-6 rounded-full bg-cover bg-top`} style={{ backgroundImage: `url(${elem.photo})` }} ></div> {elem.name}
-                {onlineUsers[elem.username] && <span className="h-2 w-2 bg-green-400 rounded-full"></span>}
-            </p>)}
-        </div>
-    )
-}
-
-
-const useSmallUsers = (props) => {
-    const [users, setUsers] = useState(null);
-    const { user, axiosInstance } = useAuthContext();
-    const { onlineUsers } = useSocketContext();
-    const [open, setOpen] = useState(false);
-
-    async function FetchUsers() {
-        try {
-            let res = await axiosInstance.get('/chat/fetch-users');
-            setUsers(res.data.users);
-        } catch (err) {
-            console.log(err.message);
-        }
-    }
-
-    function Toggle() {
-        setOpen(prev => !prev)
-    }
-
-    function SelectPartner(elem) {
-        props.setPartner(elem)
-        setOpen(false)
-
-    }
-
-    useEffect(() => {
-        if (!user) return;
-
-        FetchUsers();
-
-    }, [user])
-
-    const Tag = () => (
-        <div className={`${open ? 'open' : ""} sidebar  bg-(--color1)`}  >
-
-            <div className="absolute top-0 left-0 right-0 h-10 bg-red-800 text-white text-center" onClick={() => setOpen(false)} >Close</div>
-            <div className="h-10" ></div>
-
-            {users && users.map(elem => <p onClick={() => SelectPartner(elem)} className={`${elem?.username === props?.partner?.username ? "bg-(--color1a)" : ""} cursor-pointer hover:bg-(--color1a) flex items-center gap-2 p-2 rounded-lg`} >
-                <div className={`h-6 w-6 rounded-full bg-cover bg-top`} style={{ backgroundImage: `url(${elem.photo})` }} ></div> {elem.name}
-                {onlineUsers[elem.username] && <span className="h-2 w-2 bg-green-400 rounded-full"></span>}
-            </p>)}
-
-
-        </div>
-    )
-
-    return { Tag, Toggle }
-}
-
 import { uploadToCloudinary } from "@/react-library/Media/cloudinary_upload";
 import { Loading } from "@/react-library/miscel/Loading";
 import { NotFound } from "@/react-library/miscel/NotFound";
+import { IoSettingsOutline } from "react-icons/io5";
+import { ChatSettings } from "./chat-settings";
 
 
 export const Chat = () => {
@@ -111,6 +27,7 @@ export const Chat = () => {
     const { id } = useParams()
     const [partner, setPartner] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [board, setBoard] = useState("message")
 
     let image = watch("image");
     let video = watch("video");
@@ -122,8 +39,8 @@ export const Chat = () => {
         try {
             let res = await axiosInstance.post('/chat/fetch-message', { id });
             setMessages(res.data.messages);
-            setPartner( res.data.partner );
-            console.log( res.data )
+            setPartner(res.data.partner);
+            console.log(res.data)
         } catch (err) {
             console.log(err);
         }
@@ -134,7 +51,7 @@ export const Chat = () => {
 
 
     useEffect(() => {
-        if (!socket  ||  !partner) return;
+        if (!socket || !partner) return;
 
         const handleReceiveMessage = (data) => {
             console.log("message received:", data, partner);
@@ -194,7 +111,7 @@ export const Chat = () => {
                 }
             }
 
-            if(data.text) new_messages.push({ type: "text", content: data.text });
+            if (data.text) new_messages.push({ type: "text", content: data.text });
 
             console.log(new_messages);
 
@@ -212,60 +129,73 @@ export const Chat = () => {
         }
     }
 
-    if( loading ) return <Loading />
+    if (loading) return <Loading />
 
-    if( !partner || !messages) return <NotFound />
+    if (!partner || !messages) return <NotFound />
 
     return (
-        <div className="relative h-[calc(100vh-60px)] grow bg-(--color1a)" >
-            <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between" >
+        <div className="relative h-[calc(100vh-60px)] grow bg-(--color1)"  >
+            <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between px-12" >
                 <div className="flex gap-2 items-center" >
                     {partner.name} {onlineUsers[partner.username] ? <div className="h-2 w-2 rounded-full bg-green-400" ></div> : ""}
                 </div>
-            </div>
 
-            <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" >
-                {messages && messages.map(elem => <Message1 message={elem} key={elem._id} partner={partner} />)}
-            </div>
-
-            <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
-                <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center absolute inset-0" >
-
-                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
-                        {image && image.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {image.length} </div>}
-                        <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                        <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
-                    </div>
-
-
-                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
-
-                        {video && video.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {video.length} </div>}
-                        <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                        <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
-                    </div>
-
-
-
-                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
-                        {audio && audio.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {audio.length} </div>}
-                        <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                        <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
-                    </div>
-
-
-
-                    <textarea rows={5} placeholder="write your thoughts ..." className="grow resize-none p-2 h-20" {...register("text", { required: "" })} />
-
-
-                    <button type="submit" className="bg-(--color1a) p-2 rounded-lg hover:opacity-80" >
-                        Send
-                    </button>
-
-                </form>
-
+                <IoSettingsOutline onClick={() => setBoard(prev => prev === 'message' ? 'settings' : 'message')} className="cursor-pointer" />
 
             </div>
+
+            {
+                board === "message" && <>
+                    <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `url(/message-back.jpg)` }} >
+                        {messages && messages.map(elem => <Message1 message={elem} key={elem._id} partner={partner} />)}
+                    </div>
+
+                    <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
+                        <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center absolute inset-0" >
+
+                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
+                                {image && image.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {image.length} </div>}
+                                <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                            </div>
+
+
+                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
+
+                                {video && video.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {video.length} </div>}
+                                <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                            </div>
+
+
+
+                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
+                                {audio && audio.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {audio.length} </div>}
+                                <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                            </div>
+
+
+
+                            <textarea rows={5} placeholder="write your thoughts ..." className="grow resize-none p-2 h-20" {...register("text", { required: "" })} />
+
+
+                            <button type="submit" className="bg-(--color1a) p-2 rounded-lg hover:opacity-80" >
+                                Send
+                            </button>
+
+                        </form>
+
+
+                    </div>
+                </>
+            }
+
+            {
+                board === "settings" && <ChatSettings partner={partner} />
+            }
+
+
 
         </div>
     )

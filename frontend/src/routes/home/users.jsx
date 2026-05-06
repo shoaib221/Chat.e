@@ -30,7 +30,7 @@ export function Users() {
             <div className="flex flex-col gap-4 p-4 max-w-200 mx-auto" >
 
                 {data && data.length > 0 && data.map((elem, i) => (
-                    <div key={i} className="box-13 flex justify-between" >
+                    <div key={i} className="box-15 flex justify-between" >
                         <div>
                         
                         <div className="text-(--color4)" > {elem.name} </div>

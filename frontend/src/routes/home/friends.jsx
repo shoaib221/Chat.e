@@ -17,32 +17,9 @@ export function Friends() {
 
     
 
-    const { Tag: UnfriendConfirmerTag, Init: UnfriendConfirmerInit, procede: unfriendProcede } = useConfirmer("Are you sure to Unfriend")
-
-
-    useEffect(() => {
-        if (!unfriendProcede || !friend) return;
-
-        async function Unfriend() {
-            try {
-                await axiosInstance.post("/chat/unfriend", { friend });
-                fetchData();
-                toast.success("Unfriended");
-                setFriend(null)
-            }
-            catch (err) {
-                console.log(err);
-                alert("error");
-            }
-        }
-        Unfriend()
-    }, [unfriendProcede, axiosInstance, fetchData, friend])
-
-
-
     return (
         <div>
-            <UnfriendConfirmerTag />
+            
 
             <SearchTag searchFor={searchFor} setSearchFor={setSearchFor} fetchData={fetchData} />
 
@@ -58,12 +35,7 @@ export function Friends() {
 
                         </div>
 
-                        <button
-                            onClick={(e) => { e.stopPropagation(); setFriend(elem); UnfriendConfirmerInit("Sure to unfriend ?"); }}
-                            className="hover:opacity-80"
-                        >
-                            Unfriend
-                        </button>
+                        
                     </div>
                 ))}
 
