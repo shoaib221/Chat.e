@@ -145,7 +145,7 @@ export const GroupChat = () => {
                 <IoSettingsOutline onClick={() => setBoard(prev => prev === 'message' ? 'settings' : 'message')} className="cursor-pointer" />
             </div>
 
-            {board === 'message' ? <div className="overflow-auto pt-12 pb-24 bg-(--color1a) p-4 flex flex-col h-full" style={{ backgroundImage: `url(/message-back.jpg)` }} >
+            {board === 'message' ? <div className="overflow-auto pt-12 pb-24 bg-(--color1a) p-4 flex bg-cover bg-center flex-col h-full" style={{ backgroundImage: `url(/message-back.jpg)` }} >
                 {messages && messages.map(elem => <Message2 message={elem} key={elem._id} partner={partner} />)}
             </div> : <GroupSettings group={partner} members={partner?.members} admin={partner?.admin} />}
 

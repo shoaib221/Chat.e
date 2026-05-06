@@ -146,7 +146,7 @@ export const Chat = () => {
 
             {
                 board === "message" && <>
-                    <div className="overflow-auto pt-12 pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `url(/message-back.jpg)` }} >
+                    <div className="overflow-auto pt-12 bg-cover bg-center pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `url(/message-back.jpg)` }} >
                         {messages && messages.map(elem => <Message1 message={elem} key={elem._id} partner={partner} />)}
                     </div>
 

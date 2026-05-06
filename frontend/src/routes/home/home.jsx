@@ -15,7 +15,7 @@ export function Home() {
         <PrivateRoute>
             <div>
 
-                <div className="flex mx-auto my-4 overflow-auto w-48 lg:w-full max-w-252 no-scrollbar lg:gap-2 lg:p-2" >
+                <div className="flex mx-auto my-4 overflow-auto w-48 lg:w-full max-w-252 no-scrollbar lg:gap-2 lg:p-2 border lg:border-0 rounded-lg" >
                     <div className={`min-w-48 text-center option ${board === 'friends' && 'selected'}`} onClick={() => setBoard('friends')} > Friends </div>
                     <div className={`min-w-48 text-center option ${board === 'frequests' && 'selected'}`} onClick={() => setBoard('frequests')} > Friend Requests </div>
                     <div className={`min-w-48 text-center option ${board === 'srequests' && 'selected'}`} onClick={() => setBoard('srequests')} > Sent Requests </div>

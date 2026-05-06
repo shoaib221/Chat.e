@@ -52,7 +52,7 @@ export const ChatSettings = (props) => {
         <div className="grow justify-center items-center overflow-auto pt-12 pb-24 bg-(--color1a) p-4 h-full" >
             <UnfriendConfirmerTag />
             <div className="header-11" >  Friend's Info  </div>
-            <div className="grid grid-cols-2 mx-auto max-w-100 w-full p-4 gap-4" >
+            <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto max-w-100 w-full p-4 gap-4" >
                 <div>Contact</div>
                 <div>{props.partner.username}</div>
 
