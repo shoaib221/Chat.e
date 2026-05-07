@@ -93,21 +93,21 @@ export const Chat = () => {
             if (data.image?.length > 0) {
                 for (const elem of Array.from(data.image)) {
                     const content = await uploadToCloudinary(elem, "image");
-                    new_messages.push({ content, type: "image" });
+                    if(content) new_messages.push({ content, type: "image" });
                 }
             }
 
             if (data.video?.length > 0) {
                 for (const elem of Array.from(data.video)) {
                     const content = await uploadToCloudinary(elem, "video");
-                    new_messages.push({ content, type: "video" });
+                    if(content) new_messages.push({ content, type: "video" });
                 }
             }
 
             if (data.audio?.length > 0) {
                 for (const elem of Array.from(data.audio)) {
                     const content = await uploadToCloudinary(elem, "audio");
-                    new_messages.push({ content, type: "audio" })
+                    if(content) new_messages.push({ content, type: "audio" })
                 }
             }
 
@@ -115,10 +115,12 @@ export const Chat = () => {
 
             console.log(new_messages);
 
-            let res = await axiosInstance.post('/chat/send-message', { receiver: partner.username, messages: new_messages });
+            let res = null;
+            if(  new_messages.length > 0 ) 
+                res = await axiosInstance.post('/chat/send-message', { receiver: partner.username, messages: new_messages });
 
             new_messages = messages;
-            new_messages = new_messages.concat(res.data.messages);
+            new_messages = new_messages.concat(res?.data?.messages);
 
             setMessages(new_messages);
             reset();

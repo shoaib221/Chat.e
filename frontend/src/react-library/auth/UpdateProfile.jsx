@@ -105,10 +105,10 @@ export const UpdateProfile = () => {
 
     return (
         <PrivateRoute>
-            <div className="flex flex-col lg:flex-row grow p-2 gap-4" >
+            <div className="flex flex-col  items-center grow p-2 gap-4" >
 
 
-                <div className="rounded-full bg-cover bg-center h-60 w-60 min-w-60 relative border-2 border-(--color4)"
+                <div className="rounded-full bg-cover bg-center h-60 w-60 min-w-60 relative border-2 border-(--color4) mx-auto"
                     style={{ backgroundImage: `url(${photo})` }} >
 
                     <div className="rounded-full bg-[var(--color1)] absolute top-[75%] right-2 cursor-pointer" >
@@ -118,9 +118,9 @@ export const UpdateProfile = () => {
                 </div>
 
 
+                <br />
 
-
-                <div className="grow lg:pl-8" >
+                <div className="grow lg:p-2" >
 
 
                     <div className="header-13" >Username</div>
@@ -132,7 +132,7 @@ export const UpdateProfile = () => {
                     <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your Name" className="input-11" />
                     <br / >
 
-                    <button onClick={Update} className="button-1234"  >Update</button>
+                    <div onClick={Update} className="button-1234"  >Update</div>
 
                     
                     

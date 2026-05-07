@@ -14,6 +14,11 @@ export async function uploadToCloudinary(file, fileType) {
 
         const { timestamp, signature, apiKey, cloudName, folder } = res.data;
 
+        if(!signature || !timestamp || !apiKey || !cloudName) {
+            console.error("Invalid signature response:", res.data.response.error);
+            return null;
+        }
+
         console.log(res.data)
 
         // 2️⃣ Prepare upload
