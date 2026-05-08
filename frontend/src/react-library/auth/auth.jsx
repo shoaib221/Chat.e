@@ -45,7 +45,7 @@ const LogIn = ({ toggle }) => {
 
 
     return (
-        <div className='text-(--color2) bg-(--color1)/80 box-1 items-center' >
+        <div className='text-(--color2) bg-(--color1)/80 box-1 items-center w-full max-w-[500px]' >
             <EmailLogin />
 
             <Breaker message={'or'} />

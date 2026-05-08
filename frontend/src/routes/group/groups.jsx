@@ -50,7 +50,7 @@ export const Groups = () => {
     const { onlineUsers } = useSocketContext()
 
     return (
-        <div>
+        <div className="px-2" >
             <CreateGroup refetchGroups={fetchData} />
 
             <div className="h-10" > </div>

@@ -18,7 +18,7 @@ export function Friends() {
     
 
     return (
-        <div>
+        <div className="px-2" >
             
 
             <SearchTag searchFor={searchFor} setSearchFor={setSearchFor} fetchData={fetchData} />

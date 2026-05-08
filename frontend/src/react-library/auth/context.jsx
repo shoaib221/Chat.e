@@ -82,6 +82,8 @@ export const AuthProvider = ({ children }) => {
             return;
         }
 
+        console.log( "firebaseuser", firebaseUser )
+
         setupInterceptors(firebaseUser);
 
         try {
@@ -89,7 +91,7 @@ export const AuthProvider = ({ children }) => {
 
             const res = await axiosInstance.post("/auth/fb-register", firebaseUser);
 
-            const fullUser = { ...firebaseUser, ...res.data.user, }; 
+            const fullUser = { ...firebaseUser, ...res.data.user }; 
             setUser(fullUser);
         } catch (err) {
             toast.error("Authentication failed");

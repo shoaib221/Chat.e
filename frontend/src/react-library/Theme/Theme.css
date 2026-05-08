@@ -26,9 +26,9 @@
 	--color4: #00053d;
 	--color4a: #00053d;
 	--color4b: #00053d;
-	--color5: #c40000;
-	--color6: #a45200;
-	--color7: #003c29;
+	--color5: #5e0000;
+	
+	--color6: #003c29;
 	--color7a: rgb(145, 247, 145);
 	--shadow-1: rgba(0, 0, 0, 0.2);
 	--shadow-2: rgba(0, 0, 0, 0.4);
@@ -46,7 +46,8 @@
 	--color4: #ffffff;
 	--color4a: #cecece;
 	--color4b: #000649;
-	--color5: #da0000;
+	--color5: #ff2a00;
+	--color6: #02a82e;
 	--shadow-1: rgba(255, 255, 255, 0.2);
 	--shadow-2: rgba(255, 255, 255, 0.15);
 }

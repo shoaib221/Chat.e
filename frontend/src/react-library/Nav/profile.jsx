@@ -47,7 +47,7 @@ export const ProfileLogo1 = ({ image = "/avatar.jpg", }) => {
             {open && (
                 <div className="absolute top-[100%] right-0 w-48 bg-(--color4) text-(--color1) opacity-100 rounded-lg  z-50">
                     <ul className="py-1 text-sm">
-                        <li className="w-full text-left px-4 py-2 hover:opacity-80"
+                        <li className="w-full text-left px-4 py-2 hover:opacity-80 cursor-pointer"
                             onClick={ () => navigate( '/profile' ) }
                         >
 
@@ -58,10 +58,9 @@ export const ProfileLogo1 = ({ image = "/avatar.jpg", }) => {
                         
 
                         <li
-                            
-                                className="w-full text-left px-4 py-2 hover:opacity-80"
-                                onClick={() => LogOut() }
-                            >
+                            className="w-full text-left px-4 py-2 hover:opacity-80 cursor-pointer"
+                            onClick={() => LogOut() }
+                        >
                                 LogOut
                             
                         </li>

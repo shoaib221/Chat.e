@@ -34,7 +34,6 @@ export const ChatSettings = (props) => {
         async function Unfriend() {
             try {
                 await axiosInstance.post("/chat/unfriend", { friend: props.partner });
-                
                 toast.success("Unfriended");
                 
             }
@@ -46,20 +45,41 @@ export const ChatSettings = (props) => {
         Unfriend()
     }, [unfriendProcede, axiosInstance])
 
+    console.log(props.partner);
+
 
 
     return (
         <div className="grow justify-center items-center overflow-auto pt-12 pb-24 bg-(--color1a) p-4 h-full" >
             <UnfriendConfirmerTag />
             <div className="header-11" >  Friend's Info  </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto max-w-100 w-full p-4 gap-4" >
-                <div>Contact</div>
-                <div>{props.partner.username}</div>
+            <br/>
 
-                <div>Friend Since</div>
-                <div></div>
-                
-                <div>Want to unfriend ?</div>
+            <span className="flex flex-col gap-4 mx-auto justify-center items-center" >
+                <img src={props.partner.photo} alt="" className="w-32 h-32 rounded-full object-cover" />
+                <div>{props.partner.username}</div>
+            </span>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 mx-auto max-w-100 w-full p-4 gap-8" >
+
+
+                <div className="font-bold text-right" >Name</div>
+                <div>{props.partner.name}</div>
+
+                <div className="font-bold text-right" >Bio</div>
+                <div>{props.partner.bio}</div>
+
+                <div className="font-bold text-right" >Profession</div>
+                <div>{props.partner.profession}</div>
+
+                <div className="font-bold text-right" >Contact</div>
+                <div>{props.partner.contact}</div>
+
+                <div className="font-bold text-right" >Location</div>
+                <div>{props.partner.location}</div>
+
+
+                <div className="font-bold text-right" >Want to unfriend ?</div>
                 <div onClick={ UnfriendConfirmerInit } className="text-(--color5) hover:opacity-80 cursor-pointer" >Unfriend</div>
             </div>
 
