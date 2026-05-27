@@ -38,6 +38,10 @@ This is a real-time chat application that supports one-to-one and group messagin
 ## 📦 Packages Used
 - multer (for media uploads)
 
+## 📦 Deployment
+- Frontend - [Netlify](https://chate-shoaib221.netlify.app/)
+- Backend - [Render](https://express-practice-xbf9.onrender.com)
+
 ---
 
 ## 🧑‍💻 Setup Instructions
