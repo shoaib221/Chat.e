@@ -4,6 +4,9 @@
 import { app, server } from "./utils/starter.js";
 import mongoose from "mongoose";
 import { mainRouter } from "./routes.js";
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 
 
 app.use((req, res, next) => {
@@ -11,8 +14,21 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use(mainRouter);
+app.use("/api", mainRouter);
 
+
+
+// Catch-all for SPA routes
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use((req, res) => {
+    res.sendFile(
+        path.join(__dirname, "public", "index.html")
+    );
+});
 
 const clientOptions = { serverApi: { version: '1', strict: true, deprecationErrors: true } };
 
@@ -36,7 +52,7 @@ async function run() {
 
 run();
 
-export default app;
+
 
 
 

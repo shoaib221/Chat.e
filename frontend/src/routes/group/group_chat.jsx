@@ -55,6 +55,7 @@ export const GroupChat = () => {
 
         const handleReceiveMessage = (data) => {
             console.log("message received:", data);
+            if( !data.messages[0].group_id ) return;
             if (partner._id.toString() !== data.messages[0].group_id.toString()) return;
 
             setMessages(prev_messages => {

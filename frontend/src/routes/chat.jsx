@@ -55,6 +55,7 @@ export const Chat = () => {
 
         const handleReceiveMessage = (data) => {
             console.log("message received:", data, partner);
+            if( data.messages[0].group_id ) return;
             if (partner.username !== data.messages[0].sender) return;
 
 
