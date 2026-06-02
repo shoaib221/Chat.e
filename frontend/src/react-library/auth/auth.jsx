@@ -144,7 +144,7 @@ export const Auth = () => {
     if (loading) return <Loading />
 
     return (
-        <div className='p-2 flex-1 flex flex-col h-full  bg-cover bg-center justify-center items-center' style={{ backgroundImage: 'url(/auth.jpg)' }} >
+        <div className='p-2 grow flex flex-col h-[calc(100vh-60px)]  bg-cover bg-center justify-center items-center' style={{ backgroundImage: 'url(/auth.jpg)' }} >
             {login === "login" && <LogIn toggle={setLogin} />}
             {login === "register" && <Register toggle={setLogin} />}
             {login === "forgot" && <ForgotPassword toggle={setLogin} />}

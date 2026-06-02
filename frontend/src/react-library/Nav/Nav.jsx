@@ -9,6 +9,9 @@ import { FaGraduationCap } from "react-icons/fa6";
 import { ThemeButton3, useThemeContext } from '../Theme/Theme.jsx';
 import { ProfileLogo1 } from './profile.jsx';
 import { TbMessageCircleHeart } from "react-icons/tb";
+import { IoArrowUpSharp, IoMailSharp } from "react-icons/io5";
+import { FaGlobe } from "react-icons/fa";
+import { useAuthContext } from '../auth/context';
 
 
 export const Logo = () => {
@@ -41,7 +44,7 @@ export const Nav = () => {
     const [ navBar, setNavBar ] = useState(false);
 
     return (
-        <nav id='top' className='z-30 bg-(--color1) flex h-14 justify-between p-4 items-center fixed top-0 w-full max-w-[1800px] border-b-2 border-(--color1a)' >
+        <nav id='top' className='z-30 bg-(--color1) flex min-h-14 h-14 justify-between px-2 py-1 items-center fixed top-0 w-full max-w-[2000px]' >
             
             <Logo />
 
@@ -56,9 +59,6 @@ export const Nav = () => {
 
 
 
-import { IoArrowUpSharp, IoMailSharp } from "react-icons/io5";
-import { FaGlobe } from "react-icons/fa";
-import { useAuthContext } from '../auth/context';
 
 
 export const Footer = () => {

@@ -120,7 +120,7 @@ export const GroupChat = () => {
             setMessages(new_messages);
             reset();
 
-            document.getElementById( "end-of-message" )?.scrollIntoView({
+            document.getElementById("end-of-message")?.scrollIntoView({
                 behavior: "smooth",
                 block: "nearest"
             });
@@ -136,7 +136,8 @@ export const GroupChat = () => {
     if (!partner) return <NotFound />
 
     return (
-        <div className="relative h-[calc(100vh-60px)] grow bg-(--color1a)" >
+        <div className="relative h-[calc(100vh-56px)] flex flex-col" >
+
             <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between px-8" >
                 <div className="flex gap-2 items-center justify-between" >
                     {partner.name}
@@ -145,50 +146,61 @@ export const GroupChat = () => {
                 <IoSettingsOutline onClick={() => setBoard(prev => prev === 'message' ? 'settings' : 'message')} className="cursor-pointer" />
             </div>
 
-            {board === 'message' ? <div className="overflow-auto pt-12 pb-24 bg-(--color1a) p-4 flex bg-cover bg-center flex-col h-full" style={{ backgroundImage: `url(/message-back.jpg)` }} >
-                {messages && messages.map(elem => <Message2 message={elem} key={elem._id} partner={partner} />)}
-            </div> : <GroupSettings group={partner} members={partner?.members} admin={partner?.admin} />}
+            <div className="min-h-10" ></div>
 
-            <div id="end-of-message" ></div>
-
-            {board === 'message' && <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
-                <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center absolute inset-0" >
-
-                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
-                        {image && image.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {image.length} </div>}
-                        <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                        <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+            {board === 'message' ?
+                <>
+                    <div className="overflow-auto bg-(--color1a) p-4 flex bg-cover bg-center flex-col h-full" style={{ backgroundImage: `url(/message-back.jpg)` }} >
+                        {messages && messages.map(elem => <Message2 message={elem} key={elem._id} partner={partner} />)}
                     </div>
 
+                    <div id="end-of-message" className="min-h-24" ></div>
 
-                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
+                    <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
+                        <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center absolute inset-0" >
 
-                        {video && video.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {video.length} </div>}
-                        <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                        <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
+                                {image && image.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {image.length} </div>}
+                                <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                            </div>
+
+
+                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
+
+                                {video && video.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {video.length} </div>}
+                                <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                            </div>
+
+
+
+                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
+                                {audio && audio.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {audio.length} </div>}
+                                <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                            </div>
+
+
+
+                            <textarea rows={5} placeholder="write your thoughts ..." className="grow resize-none p-2 h-20" {...register("text", { required: "" })} />
+
+
+                            <button type="submit" className="bg-(--color1a) p-2 rounded-lg hover:opacity-80" >
+                                Send
+                            </button>
+
+                        </form>
+
+
                     </div>
 
+                </>
+                :
+                <GroupSettings group={partner} members={partner?.members} admin={partner?.admin} />
+            }
 
 
-                    <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
-                        {audio && audio.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {audio.length} </div>}
-                        <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                        <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
-                    </div>
-
-
-
-                    <textarea rows={5} placeholder="write your thoughts ..." className="grow resize-none p-2 h-20" {...register("text", { required: "" })} />
-
-
-                    <button type="submit" className="bg-(--color1a) p-2 rounded-lg hover:opacity-80" >
-                        Send
-                    </button>
-
-                </form>
-
-
-            </div>}
 
         </div>
     )

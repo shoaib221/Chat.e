@@ -135,7 +135,7 @@ export const GroupSettings = (props) => {
             <div className="h-10" ></div>
 
 
-            <div className="header-11" >Friends</div>
+            <div className="header-11" >Add Members As Friends</div>
 
 
 
@@ -153,7 +153,7 @@ export const GroupSettings = (props) => {
                             <div> {elem.username} </div>
                         </div>
 
-                        <button className="hover:opacity-80" onClick={() => AddToGroup(elem)} >Add as Member</button>
+                        <button className="hover:opacity-80" onClick={() => AddToGroup(elem)} >Add</button>
                     </div>)
                 })}
 

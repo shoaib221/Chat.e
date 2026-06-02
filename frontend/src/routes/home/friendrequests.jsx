@@ -9,13 +9,13 @@ export function FriendRequests() {
     const { data, loading, page, pages, setPage, searchFor, setSearchFor, fetchData } = usePagination({ url: "/chat/friend-requests" });
     const { axiosInstance } = useAuthContext();
 
-    async function CancelRequest(sender , verdict ) {
+    async function CancelRequest(sender, verdict) {
         try {
-            let res = await axiosInstance.post( "/chat/reject-request", { sender, verdict } );
+            let res = await axiosInstance.post("/chat/reject-request", { sender, verdict });
             fetchData();
             toast.success("request Cancelled");
         }
-        catch(err) {
+        catch (err) {
             console.log(err);
             alert("error");
         }
@@ -32,14 +32,18 @@ export function FriendRequests() {
                 {data && data.length > 0 && data.map((elem, i) => (
                     <div key={i} className="box-15 flex justify-between" >
                         <div>
-                        
-                        <div className="text-(--color4)" > {elem.name} </div>
-                        <div> { elem.username } </div>
-                        
+
+                            <div className="text-(--color4)" > {elem.name} </div>
+                            <div> {elem.username} </div>
+
                         </div>
 
-                        <button onClick={() => CancelRequest( elem, 'rejected' )} className="hover:opacity-80" >Reject</button>
-                        <button onClick={() => CancelRequest( elem, 'accepted' )} className="hover:opacity-80" >Accept</button>
+                        <div className="flex gap-2" >
+
+                            <button onClick={() => CancelRequest(elem, 'rejected')} className="hover:opacity-80" >Reject</button>
+                            <button onClick={() => CancelRequest(elem, 'accepted')} className="hover:opacity-80" >Accept</button>
+
+                        </div>
                     </div>
                 ))}
 

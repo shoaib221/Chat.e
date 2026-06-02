@@ -125,9 +125,14 @@ export const Chat = () => {
             setMessages(new_messages);
             reset();
 
+            const messageBottom = document.getElementById('message-bottom');
+            if (messageBottom) {
+                messageBottom.scrollIntoView({ behavior: 'smooth' });
+            }
+
         } catch (err) {
             console.log(err);
-            alert('error')
+            alert('error');
         }
     }
 
@@ -136,8 +141,8 @@ export const Chat = () => {
     if (!partner || !messages) return <NotFound />
 
     return (
-        <div className="relative h-[calc(100vh-60px)] grow bg-(--color1)"  >
-            <div className="h-10 absolute p-2 top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between px-12" >
+        <div className="relative h-[calc(100vh-56px)] flex flex-col" >
+            <div className="min-h-10 p-2 absolute top-0 left-0 right-0 bg-(--color1) flex z-10 gap-4 items-center  justify-between px-12" >
                 <div className="flex gap-2 items-center" >
                     {partner.name} {onlineUsers[partner.username] ? <div className="h-2 w-2 rounded-full bg-green-400" ></div> : ""}
                 </div>
@@ -146,14 +151,24 @@ export const Chat = () => {
 
             </div>
 
+            <div className="min-h-10" >
+
+            </div>
+
+            
+
             {
                 board === "message" && <>
-                    <div className="overflow-auto pt-12 bg-cover bg-center pb-24 max-h-[calc(100vh-60px)] bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `url(/message-back.jpg)` }} >
+                    
+
+                    <div className="overflow-auto grow bg-cover bg-center   bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `url(/message-back.jpg)` }} >
                         {messages && messages.map(elem => <Message1 message={elem} key={elem._id} partner={partner} />)}
                     </div>
 
-                    <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
-                        <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center absolute inset-0" >
+                    <div className="min-h-27" id="message-bottom" ></div>
+
+                    <div className="min-h-24 absolute bottom-0 left-0 right-0 bg-(--color1)" >
+                        <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center relative inset-0" >
 
                             <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
                                 {image && image.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {image.length} </div>}
