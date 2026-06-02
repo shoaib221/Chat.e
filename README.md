@@ -32,12 +32,7 @@ This is a real-time chat application that supports one-to-one and group messagin
 ---
 
 
-## 📦 Deployment
-- [Render](https://express-practice-xbf9.onrender.com)
-
-
-
-**Setup Instructions**
+## 📦 Setup Instructions
 
 ```
 git clone https://github.com/shoaib221/Chat.e.git
