@@ -38,7 +38,7 @@ export function Users() {
                         
                         </div>
 
-                        <button onClick={() => SendFriendrequest( elem )} className="hover:opacity-80" >Add as friend</button>
+                        <button onClick={() => SendFriendrequest( elem )} className="hover:opacity-80 cursor-pointer" >Add as friend</button>
                     </div>
                 ))}
 

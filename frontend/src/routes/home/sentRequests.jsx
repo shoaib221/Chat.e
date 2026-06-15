@@ -38,7 +38,7 @@ export function SentRequests() {
                         
                         </div>
 
-                        <button onClick={() => CancelRequest( elem )} className="hover:opacity-80" >Cancel Request</button>
+                        <button onClick={() => CancelRequest( elem )} className="hover:opacity-80 cursor-pointer text-(--color5)" >Cancel</button>
                     </div>
                 ))}
 

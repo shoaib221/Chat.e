@@ -38,10 +38,10 @@ export function FriendRequests() {
 
                         </div>
 
-                        <div className="flex gap-2" >
-
-                            <button onClick={() => CancelRequest(elem, 'rejected')} className="hover:opacity-80" >Reject</button>
-                            <button onClick={() => CancelRequest(elem, 'accepted')} className="hover:opacity-80" >Accept</button>
+                        <div className="flex gap-4" >
+                            <button onClick={() => CancelRequest(elem, 'accepted')} className="hover:opacity-80 cursor-pointer text-(--color6)" >Accept</button>
+                            <button onClick={() => CancelRequest(elem, 'rejected')} className="hover:opacity-80 cursor-pointer text-(--color5)" >Reject</button>
+                            
 
                         </div>
                     </div>

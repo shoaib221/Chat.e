@@ -125,7 +125,7 @@ export const GroupSettings = (props) => {
 
                         <br /> {elem.username} </div>
 
-                    {props.admin._id.toString() === elem._id.toString() ? <div>Admin</div> : props.admin._id.toString() === user._id.toString() && <button onClick={() => RemoveFromGroup(elem)} className="hover:opacity-80" >Remove From Group</button>}
+                    {props.admin._id.toString() === elem._id.toString() ? <button>Admin</button> : props.admin._id.toString() === user._id.toString() && <button onClick={() => RemoveFromGroup(elem)} className="hover:opacity-80" >Remove</button>}
 
 
                 </div>)}
@@ -134,32 +134,35 @@ export const GroupSettings = (props) => {
 
             <div className="h-10" ></div>
 
+            {props.admin._id.toString() === user._id.toString() && <>
 
-            <div className="header-11" >Add Members As Friends</div>
+                <div className="header-11" >Add New Members</div>
+
+                <SearchTag searchFor={searchFor} setSearchFor={setSearchFor} fetchData={fetchData} />
+
+                <div className="flex flex-col gap-4 p-4 max-w-200 mx-auto" >
+
+                    {data && data.length > 0 && data.map((elem, i) => {
+                        if (membersMap.has(elem._id.toString())) return <></>;
+
+                        return (<div key={i} className="box-15 flex justify-between"  >
+                            <div>
+                                <div className="text-(--color4) flex gap-2 items-center" > {elem.name} {"  "} {onlineUsers[elem.username] && <div className={`h-2 w-2 rounded-full bg-green-600`} ></div>} </div>
+                                <div> {elem.username} </div>
+                            </div>
+
+                            <button className="hover:opacity-80" onClick={() => AddToGroup(elem)} >Add</button>
+                        </div>)
+                    })}
+
+                </div>
+
+                <PageTag page={page} pages={pages} setPage={setPage} loading={loading} data={data} />
+
+            </>}
 
 
 
-
-            <SearchTag searchFor={searchFor} setSearchFor={setSearchFor} fetchData={fetchData} />
-
-            <div className="flex flex-col gap-4 p-4 max-w-200 mx-auto" >
-
-                {data && data.length > 0 && data.map((elem, i) => {
-                    if (membersMap.has(elem._id.toString())) return <></>;
-
-                    return (<div key={i} className="box-15 flex justify-between"  >
-                        <div>
-                            <div className="text-(--color4) flex gap-2 items-center" > {elem.name} {"  "} {onlineUsers[elem.username] && <div className={`h-2 w-2 rounded-full bg-green-600`} ></div>} </div>
-                            <div> {elem.username} </div>
-                        </div>
-
-                        <button className="hover:opacity-80" onClick={() => AddToGroup(elem)} >Add</button>
-                    </div>)
-                })}
-
-            </div>
-
-            <PageTag page={page} pages={pages} setPage={setPage} loading={loading} data={data} />
 
             <div className="h-20" ></div>
 

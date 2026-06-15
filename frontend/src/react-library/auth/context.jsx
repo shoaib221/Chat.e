@@ -16,13 +16,13 @@ export const useAuthContext = () => useContext(AuthContext);
 
 
 
-export const backendURL = "http://localhost:4000/api";
-export const backendSocket = "http://localhost:4000";
+// export const backendURL = "http://localhost:4000/api";
+// export const backendSocket = "http://localhost:4000";
 
 
-// export const backendURL = "/api";
-// const protocol = window.location.protocol ;
-// export const backendSocket = `${protocol}//${window.location.host}`;
+export const backendURL = "/api";
+const protocol = window.location.protocol ;
+export const backendSocket = `${protocol}//${window.location.host}`;
 
 
 export const baseURL = backendURL;
