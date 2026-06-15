@@ -23,7 +23,7 @@
 	--color2a: rgb(0,0,0, .7);
 	--color3: #d2d2d2;
 	--color3a: #a9a9a9;
-	--color4: #00053d;
+	--color4: #390000;
 	--color4a: #00053d;
 	--color4b: #00053d;
 	--color5: #5e0000;
@@ -38,8 +38,8 @@
 
 
 [color-theme="dark"] {
-	--color1: #00053d;
-	--color1a: rgb(0, 7, 89);
+	--color1: #2b0808;
+	--color1a: #2b0f08;
 	--color2: rgb(177, 177, 177);
 	--color2a: rgb(159, 159, 159);
 	--color3: #414141;

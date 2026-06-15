@@ -17,6 +17,7 @@ import { Loading } from "@/react-library/miscel/Loading";
 import { NotFound } from "@/react-library/miscel/NotFound";
 import { IoSettingsOutline } from "react-icons/io5";
 import { ChatSettings } from "./chat-settings";
+import { useThemeContext } from "@/react-library/Theme/Theme";
 
 
 export const Chat = () => {
@@ -28,6 +29,20 @@ export const Chat = () => {
     const [partner, setPartner] = useState(null)
     const [loading, setLoading] = useState(true)
     const [board, setBoard] = useState("message")
+    const { themeName } = useThemeContext()
+    const [ messageBack, setMessageBack ] = useState(null)
+
+
+    
+
+
+    useEffect(() => {
+        if( !themeName ) return;
+
+        if( themeName === 'light' ) setMessageBack( "url( /message-back-1.jpg )" );
+        else if( themeName === 'dark' ) setMessageBack( "url( /message-back.jpg )" );
+
+    }, [themeName])
 
     let image = watch("image");
     let video = watch("video");
@@ -162,7 +177,7 @@ export const Chat = () => {
                 board === "message" && <>
                     
 
-                    <div className="overflow-auto grow bg-cover bg-center   bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `url(/message-back.jpg)` }} >
+                    <div className="overflow-auto grow bg-cover bg-center   bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `${ messageBack }` }} >
                         {messages && messages.map(elem => <Message1 message={elem} key={elem._id} partner={partner} />)}
                     </div>
 

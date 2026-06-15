@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { IoSettingsOutline } from "react-icons/io5";
 import { usePagination } from '@/react-library/pagination/pagination2'
 import { GroupSettings } from "./group_settings";
+import { useThemeContext } from "@/react-library/Theme/Theme";
 
 
 export const GroupChat = () => {
@@ -24,6 +25,21 @@ export const GroupChat = () => {
     const [partner, setPartner] = useState(null); // group
     const [loading, setLoading] = useState(true);
     const [board, setBoard] = useState("message")
+
+    const { themeName } = useThemeContext()
+    const [messageBack, setMessageBack] = useState(null)
+
+
+
+
+
+    useEffect(() => {
+        if (!themeName) return;
+
+        if (themeName === 'light') setMessageBack("url( /message-back-1.jpg )");
+        else if (themeName === 'dark') setMessageBack("url( /message-back.jpg )");
+
+    }, [themeName])
 
 
     let image = watch("image");
@@ -55,7 +71,7 @@ export const GroupChat = () => {
 
         const handleReceiveMessage = (data) => {
             console.log("message received:", data);
-            if( !data.messages[0].group_id ) return;
+            if (!data.messages[0].group_id) return;
             if (partner._id.toString() !== data.messages[0].group_id.toString()) return;
 
             setMessages(prev_messages => {
@@ -151,7 +167,7 @@ export const GroupChat = () => {
 
             {board === 'message' ?
                 <>
-                    <div className="overflow-auto bg-(--color1a) p-4 flex bg-cover bg-center flex-col h-full" style={{ backgroundImage: `url(/message-back.jpg)` }} >
+                    <div className="overflow-auto bg-(--color1a) p-4 flex bg-cover bg-center flex-col h-full" style={{ backgroundImage: `${ messageBack }` }} >
                         {messages && messages.map(elem => <Message2 message={elem} key={elem._id} partner={partner} />)}
                     </div>
 
