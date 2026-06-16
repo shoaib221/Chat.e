@@ -16,9 +16,10 @@ import { useAuthContext } from '../auth/context';
 
 export const Logo = () => {
     return (
-        <div className='h-[3rem] text-[var(--color4)] flex gap-2' >
+        <div className='h-[3rem] text-[var(--color4)] flex gap-2 items-center' >
             <TbMessageCircleHeart className='h-full text-2xl' />
             <div className='cen-ver font-black' >Chat.e</div>
+            <ThemeButton3 />
         </div>
     )
 }
