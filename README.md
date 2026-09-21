@@ -42,7 +42,6 @@ npm run dev
 ```
 
 ### Target Problems
-- Learning ExpressJS & ReactJS
-- CRUD operation
-- Authentication & Protected Routes
-- Theme
+- Messaging through web sockets
+- Making friends & groups
+- Uploading media on cloud storage
