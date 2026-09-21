@@ -39,11 +39,9 @@ git clone https://github.com/shoaib221/Chat.e.git
 cd Chat.e/backend
 npm install
 npm run dev
+```
 
-
----
-
-# Target Problems
+### Target Problems
 - Learning ExpressJS & ReactJS
 - CRUD operation
 - Authentication & Protected Routes
