@@ -40,4 +40,8 @@ cd Chat.e/backend
 npm install
 npm run dev
 
-
+##  Target Problems
+- Learning ExpressJS & ReactJS
+- CRUD operation
+- Authentication & Protected Routes
+- Theme
