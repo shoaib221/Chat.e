@@ -1,11 +1,9 @@
-
-
 /* #######################################  scroll product ############################# */
 
 .scroll-product {
 	height: 14rem;
 	background-color: var(--color4);
-	
+
 }
 
 .scrollpro-child {
@@ -15,10 +13,10 @@
 }
 
 .scroll-child {
-	
-	
+
+
 	background-size: cover;
-	
+
 }
 
 
@@ -65,5 +63,3 @@
 	height: 80%;
 	background-color: rgb(255, 255, 255, .5);
 }
-
-

@@ -1,5 +1,3 @@
-
-
 .header-11 {
 	font-size: 1.2rem;
 	color: var(--color4);
@@ -20,19 +18,4 @@
 	color: var(--color4);
 	font-weight: 700;
 
-}
-
-
-.no-scrollbar {
-	overflow: auto;
-
-	/* Firefox */
-	scrollbar-width: none;
-
-	/* IE / old Edge */
-	-ms-overflow-style: none;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-	display: none;
 }

@@ -2,16 +2,11 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-
-
-
-
 * {
 	box-sizing: border-box;
 	scrollbar-width: thin;
+	scrollbar-color: rgba(255, 255, 255, .3) transparent;
 }
-
-
 
 
 html {
@@ -21,8 +16,6 @@ html {
 	font-variation-settings:
 		"wdth" 100;
 }
-
-
 
 .cen-ver {
 	display: flex;
@@ -37,13 +30,11 @@ html {
 	align-items: center;
 }
 
-
 @media screen and (max-width: 1024px) {
 	html {
 		font-size: 14px;
 	}
 }
-
 
 @media screen and (max-width: 768px) {
 	html {

@@ -30,19 +30,12 @@ export const Chat = () => {
     const [loading, setLoading] = useState(true)
     const [board, setBoard] = useState("message")
     const { themeName } = useThemeContext()
-    const [ messageBack, setMessageBack ] = useState(null)
+    const [messageBack, setMessageBack] = useState("url( /message-back-1.jpg )")
 
 
-    
 
 
-    useEffect(() => {
-        if( !themeName ) return;
 
-        if( themeName === 'light' ) setMessageBack( "url( /message-back-1.jpg )" );
-        else if( themeName === 'dark' ) setMessageBack( "url( /message-back.jpg )" );
-
-    }, [themeName])
 
     let image = watch("image");
     let video = watch("video");
@@ -70,7 +63,7 @@ export const Chat = () => {
 
         const handleReceiveMessage = (data) => {
             console.log("message received:", data, partner);
-            if( data.messages[0].group_id ) return;
+            if (data.messages[0].group_id) return;
             if (partner.username !== data.messages[0].sender) return;
 
 
@@ -102,6 +95,7 @@ export const Chat = () => {
 
 
     async function SendMessage(data) {
+        console.log("sending message");
         try {
 
             let new_messages = []
@@ -109,21 +103,21 @@ export const Chat = () => {
             if (data.image?.length > 0) {
                 for (const elem of Array.from(data.image)) {
                     const content = await uploadToCloudinary(elem, "image");
-                    if(content) new_messages.push({ content, type: "image" });
+                    if (content) new_messages.push({ content, type: "image" });
                 }
             }
 
             if (data.video?.length > 0) {
                 for (const elem of Array.from(data.video)) {
                     const content = await uploadToCloudinary(elem, "video");
-                    if(content) new_messages.push({ content, type: "video" });
+                    if (content) new_messages.push({ content, type: "video" });
                 }
             }
 
             if (data.audio?.length > 0) {
                 for (const elem of Array.from(data.audio)) {
                     const content = await uploadToCloudinary(elem, "audio");
-                    if(content) new_messages.push({ content, type: "audio" })
+                    if (content) new_messages.push({ content, type: "audio" })
                 }
             }
 
@@ -132,7 +126,7 @@ export const Chat = () => {
             console.log(new_messages);
 
             let res = null;
-            if(  new_messages.length > 0 ) 
+            if (new_messages.length > 0)
                 res = await axiosInstance.post('/chat/send-message', { receiver: partner.username, messages: new_messages });
 
             new_messages = messages;
@@ -171,54 +165,54 @@ export const Chat = () => {
 
             </div>
 
-            
+
 
             {
                 board === "message" && <>
-                    
 
-                    <div className="overflow-auto grow bg-cover bg-center   bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `${ messageBack }` }} >
+                    <div className="overflow-auto grow bg-cover bg-center   bg-(--color1a) p-4 flex flex-col" style={{ backgroundImage: `${messageBack}` }} >
                         {messages && messages.map(elem => <Message1 message={elem} key={elem._id} partner={partner} />)}
                     </div>
 
                     <div className="min-h-27" id="message-bottom" ></div>
 
                     <div className="min-h-24 absolute bottom-0 left-0 right-0 bg-(--color1)" >
-                        <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center relative inset-0" >
 
-                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
-                                {image && image.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {image.length} </div>}
-                                <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                                <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                        <form onSubmit={handleSubmit(SendMessage)} className="flex flex-row gap-4 p-4 items-center relative inset-0" >
+
+                            <div className="flex flex-col gap-2 items-center justify-center pl-2" >
+
+                                <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
+                                    {image && image.length > 0 && <div className="absolute -left-4 bg-(--color4) text-(--color1) text-[.8rem] rounded-full p-1" > {image.length} </div>}
+                                    <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                    <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                                </div>
+
+                                <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
+
+                                    {video && video.length > 0 && <div className="absolute -left-4 bg-(--color4) text-(--color1) text-[.8rem] rounded-full p-1" > {video.length} </div>}
+                                    <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                    <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                                </div>
+
+                                <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
+                                    {audio && audio.length > 0 && <div className="absolute -left-4 bg-(--color4) text-(--color1) text-[.8rem] rounded-full p-1" > {audio.length} </div>}
+                                    <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                    <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                                </div>
+
                             </div>
 
+                            <div className="flex gap-1 items-stretch grow w-full md:w-fit" >
+                                <textarea rows={5} placeholder="write your thoughts ..." className="rounded-lg grow resize-none border  p-2 h-20 bg-(--color1a)" {...register("text", { required: "" })} />
 
-                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
 
-                                {video && video.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {video.length} </div>}
-                                <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                                <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                                <button type="submit" className="bg-white text-(--color1) p-2 rounded-lg hover:opacity-80 self-stretch flex items-center justify-center" >
+                                    Send
+                                </button>
                             </div>
-
-
-
-                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
-                                {audio && audio.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {audio.length} </div>}
-                                <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                                <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
-                            </div>
-
-
-
-                            <textarea rows={5} placeholder="write your thoughts ..." className="grow resize-none p-2 h-20" {...register("text", { required: "" })} />
-
-
-                            <button type="submit" className="bg-(--color1a) p-2 rounded-lg hover:opacity-80" >
-                                Send
-                            </button>
 
                         </form>
-
 
                     </div>
                 </>

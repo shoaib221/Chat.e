@@ -18,12 +18,12 @@ import { useConfirmer } from "@/react-library/miscel/confirmer";
 
 
 export const ChatSettings = (props) => {
-    
+
     const { data, loading, page, pages, setPage, searchFor, setSearchFor, fetchData } = usePagination({ url: "/chat/friends" });
     const { axiosInstance, user } = useAuthContext();
     const navigate = useNavigate();
     console.log(props.partner);
-    
+
 
     const { Tag: UnfriendConfirmerTag, Init: UnfriendConfirmerInit, procede: unfriendProcede } = useConfirmer("Are you sure to unfriend ?")
 
@@ -35,7 +35,7 @@ export const ChatSettings = (props) => {
             try {
                 await axiosInstance.post("/chat/unfriend", { friend: props.partner });
                 toast.success("Unfriended");
-                
+
             }
             catch (err) {
                 console.log(err);
@@ -53,39 +53,44 @@ export const ChatSettings = (props) => {
         <div className="grow justify-center items-center overflow-auto pt-12 pb-24 bg-(--color1a) p-4 h-full" >
             <UnfriendConfirmerTag />
             <div className="header-11" >  Friend's Info  </div>
-            <br/>
+            <br />
 
-            <span className="flex flex-col gap-4 mx-auto justify-center items-center" >
-                <img src={props.partner.photo} alt="" className="w-32 h-32 rounded-full object-cover" />
-                <div>{props.partner.username}</div>
-            </span>
+            <div className="flex flex-col gap-4 mx-auto justify-center items-center p-4" >
+                <img src={props.partner.photo} alt="" className="w-40 h-40 rounded-full object-cover p-2 bg-(--color1)" />
 
-            <div className="grid grid-cols-[10rem_1fr] mx-auto max-w-100 w-full p-4 gap-8" >
+            </div>
+
+            <br /><br />
+
+            <div className="rounded-lg grid grid-cols-1 md:grid-cols-[1fr_1fr] mx-auto max-w-120 w-full p-4 gap-4 md:gap-8 bg-(--color1)" >
 
 
-                <div className="font-bold" >Name</div>
+                <div className="font-bold text-(--color4)" >Name</div>
                 <div>{props.partner.name}</div>
 
-                <div className="font-bold" >Bio</div>
+                <div className="font-bold text-(--color4)" >Email</div>
+                <div>{props.partner.username}</div>
+
+                <div className="font-bold text-(--color4)" >Bio</div>
                 <div>{props.partner.bio}</div>
 
-                <div className="font-bold" >Profession</div>
+                <div className="font-bold text-(--color4)" >Profession</div>
                 <div>{props.partner.profession}</div>
 
-                <div className="font-bold" >Contact</div>
+                <div className="font-bold text-(--color4)" >Contact</div>
                 <div>{props.partner.contact}</div>
 
-                <div className="font-bold" >Location</div>
+                <div className="font-bold text-(--color4)" >Location</div>
                 <div>{props.partner.location}</div>
 
 
-                <div className="font-bold" >Want to unfriend ?</div>
-                <div onClick={ UnfriendConfirmerInit } className="text-(--color5) hover:opacity-80 cursor-pointer" >Proceed</div>
+                <div className="font-bold text-(--color4)" >Want to unfriend ?</div>
+                <div onClick={UnfriendConfirmerInit} className="text-(--color5) hover:opacity-80 cursor-pointer" >Proceed</div>
             </div>
 
-            
 
-            
+
+
         </div>
     )
 }

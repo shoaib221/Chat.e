@@ -44,40 +44,40 @@ export function usePagination({ url }) {
 
 
 
-export const PageTag = ( { page, pages, setPage, loading, data } ) => {
+export const PageTag = ({ page, pages, setPage, loading, data }) => {
 
-    if(loading) return <Loading />
+    if (loading) return <Loading />
 
-    if( data && data.length > 0 ) return (
+    if (data && data.length > 0) return (
         <div className="flex gap-2 justify-center" >
-            { page > 1 && <div onClick={ () => setPage( prev => prev-1 ) } className="button-2" >Previous</div> }
+            {page > 1 && <div onClick={() => setPage(prev => prev - 1)} className="button-6" >Previous</div>}
 
-            { [ ...Array(pages).keys() ].map( i => (
-                <div key={i+1} onClick={ () => setPage(i+1) } className="button-2" >
-                    {i+1}
+            {[...Array(pages).keys()].map(i => (
+                <div key={i + 1} onClick={() => setPage(i + 1)} className={`button-6 ${page === i + 1 ? 'active' : ''}`} >
+                    {i + 1}
                 </div>
-            ) ) }
+            ))}
 
 
-            { page < pages && <div onClick={() => setPage( prev => prev +1 ) } className="button-2" >Next</div> }
+            {page < pages && <div onClick={() => setPage(prev => prev + 1)} className="button-6" >Next</div>}
 
-            
+
         </div>
     )
 
     return <div className="text-center" >No data found</div>
 }
 
-export function SearchTag({  searchFor,  setSearchFor, fetchData  }) {
+export function SearchTag({ searchFor, setSearchFor, fetchData }) {
 
 
     return (
         <div className="flex gap-2 w-full max-w-200 px-4 rounded-2xl border-2 items-center mx-auto" >
-            
 
-            <input value={searchFor}  onChange={(e) => setSearchFor( e.target.value )} className="grow" />
 
-            <FaSearch onClick={ () => fetchData() } />
+            <input value={searchFor} onChange={(e) => setSearchFor(e.target.value)} className="grow" />
+
+            <FaSearch onClick={() => fetchData()} />
 
         </div>
     )
@@ -85,8 +85,8 @@ export function SearchTag({  searchFor,  setSearchFor, fetchData  }) {
 
 
 
-function Users (  ) {
-    const { data, loading, page, pages, setPage, searchBy, setSearchBy, searchFor, setSearchFor, fetchData } = usePagination11( { url: "/chat/users" } );
+function Users() {
+    const { data, loading, page, pages, setPage, searchBy, setSearchBy, searchFor, setSearchFor, fetchData } = usePagination11({ url: "/chat/users" });
 
     const searchParams = [
         { value: 'friend', label: "Friends" },
@@ -96,18 +96,18 @@ function Users (  ) {
 
     return (
         <div>
-            
+
             <SearchTag searchFor={searchFor} searchBy={searchBy} setSearchBy={setSearchBy} setSearchFor={setSearchFor} searchParams={searchParams} fetchData={fetchData} />
 
-            { data && data.length >0 && data.map( (elem, i) => (
+            {data && data.length > 0 && data.map((elem, i) => (
                 <div key={i}  >
-                    { elem.id }
+                    {elem.id}
                 </div>
-            ) ) }
+            ))}
 
             <PageTag page={page} pages={pages} setPage={setPage} loading={loading} data={data} />
 
-            
+
         </div>
     )
 

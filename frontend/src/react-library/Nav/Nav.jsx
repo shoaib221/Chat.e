@@ -15,11 +15,11 @@ import { useAuthContext } from '../auth/context';
 
 
 export const Logo = () => {
+    const navigate = useNavigate();
     return (
-        <div className='h-[3rem] text-[var(--color4)] flex gap-2 items-center' >
+        <div className='cursor-pointer h-[3rem] text-[var(--color4)] flex gap-2 items-center' onClick={ () => navigate('/') } >
             <TbMessageCircleHeart className='h-full text-2xl' />
             <div className='cen-ver font-black' >Chat.e</div>
-            <ThemeButton3 />
         </div>
     )
 }
@@ -45,15 +45,9 @@ export const Nav = () => {
     const [ navBar, setNavBar ] = useState(false);
 
     return (
-        <nav id='top' className='z-30 bg-(--color1) flex min-h-14 h-14 justify-between px-2 py-1 items-center fixed top-0 w-full max-w-[2000px]' >
-            
+        <nav id='top' className='px-4 z-30 bg-(--color1) flex min-h-14 h-14 justify-between py-1 items-center fixed top-0 w-full max-w-[2000px]' >
             <Logo />
-
-            <div onClick={ () => Navigate('/') } className={ `oplink cursor-pointer ${ navi === '/' && 'selected' }` } >Home</div>
-            
             <ProfileLogo1 />
-
-            
         </nav>
     );
 };
@@ -114,10 +108,6 @@ export const Footer = () => {
                     <button className='font-bold text-lg button-91 my-2' >Send Message</button>
 
                 </div>
-
-
-
-
 
             </div>
 

@@ -21,7 +21,7 @@ export const useAuthContext = () => useContext(AuthContext);
 
 
 export const backendURL = "/api";
-const protocol = window.location.protocol ;
+const protocol = window.location.protocol;
 export const backendSocket = `${protocol}//${window.location.host}`;
 
 
@@ -95,7 +95,7 @@ export const AuthProvider = ({ children }) => {
             return;
         }
 
-        console.log( "firebaseuser", firebaseUser )
+        console.log("firebaseuser", firebaseUser)
 
         setupInterceptors(firebaseUser);
 
@@ -104,7 +104,7 @@ export const AuthProvider = ({ children }) => {
 
             const res = await axiosInstance.post("/auth/fb-register", firebaseUser);
 
-            const fullUser = { ...firebaseUser, ...res.data.user }; 
+            const fullUser = { ...firebaseUser, ...res.data.user };
             setUser(fullUser);
         } catch (err) {
             toast.error("Authentication failed");

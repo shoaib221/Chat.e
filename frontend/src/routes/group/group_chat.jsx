@@ -167,45 +167,53 @@ export const GroupChat = () => {
 
             {board === 'message' ?
                 <>
-                    <div className="overflow-auto bg-(--color1a) p-4 flex bg-cover bg-center flex-col h-full" style={{ backgroundImage: `${ messageBack }` }} >
+                    <div className="overflow-auto bg-(--color1a) p-4 flex bg-cover bg-center flex-col h-full" style={{ backgroundImage: `${messageBack}` }} >
                         {messages && messages.map(elem => <Message2 message={elem} key={elem._id} partner={partner} />)}
                     </div>
 
                     <div id="end-of-message" className="min-h-24" ></div>
 
-                    <div className="h-24 absolute bottom-0 left-0 right-0 bg-(--color1) z-10" >
-                        <form onSubmit={handleSubmit(SendMessage)} className="flex gap-4 p-4 items-center absolute inset-0" >
+                    <div className="min-h-24 absolute bottom-0 left-0 right-0 bg-(--color1)" >
 
-                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
-                                {image && image.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {image.length} </div>}
-                                <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                                <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+
+                        <form onSubmit={handleSubmit(SendMessage)} className="flex flex-row gap-4 p-4 items-center relative inset-0" >
+
+                            <div className="flex flex-col gap-2 items-center justify-center pl-2" >
+                                <div className="rounded-full bg-(--color1) cursor-pointer w-8 h-6 relative" >
+                                    {image && image.length > 0 && <div className="absolute -left-4 bg-(--color4) text-(--color1) text-[.8rem] rounded-full p-1" > {image.length} </div>}
+                                    <AiOutlinePicture title="upload image" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                    <input type="file" multiple accept="image/*" {...register("image")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                                </div>
+
+
+                                <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6 pl-2" >
+
+                                    {video && video.length > 0 && <div className="absolute -left-4 bg-(--color4) text-(--color1) text-[.8rem] rounded-full p-1" > {video.length} </div>}
+                                    <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                    <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                                </div>
+
+
+
+                                <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6 pl-2" >
+                                    {audio && audio.length > 0 && <div className="absolute -left-4 bg-(--color4) text-(--color1) text-[.8rem] rounded-full p-1" > {audio.length} </div>}
+                                    <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
+                                    <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
+                                </div>
+
                             </div>
 
 
-                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
 
-                                {video && video.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {video.length} </div>}
-                                <MdOutlineSlowMotionVideo title="upload video" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                                <input type="file" multiple accept="video/*" {...register("video")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
-                            </div>
+                            <textarea rows={5} placeholder="write your thoughts ..." className="rounded-lg grow resize-none border  p-2 h-20 bg-(--color1a)" {...register("text", { required: "" })} />
 
 
-
-                            <div className="rounded-full bg-(--color1) cursor-pointer w-8 relative h-6" >
-                                {audio && audio.length > 0 && <div className="absolute -top-6 bg-(--color4) text-(--color1) text-[.8rem] rounded-full px-[10px] py-1" > {audio.length} </div>}
-                                <LuAudioLines title="upload audio" className="text-2xl  z-10 absolute inset-0 bg-(--color1)" />
-                                <input type="file" multiple accept="audio/*" {...register("audio")} className="opacity-0 absolute inset-0 h-full w-full z-10" />
-                            </div>
-
-
-
-                            <textarea rows={5} placeholder="write your thoughts ..." className="grow resize-none p-2 h-20" {...register("text", { required: "" })} />
-
-
-                            <button type="submit" className="bg-(--color1a) p-2 rounded-lg hover:opacity-80" >
+                            <button type="submit" className="bg-white text-(--color1) p-2 rounded-lg hover:opacity-80 self-stretch flex items-center justify-center" >
                                 Send
                             </button>
+
+
+
 
                         </form>
 
