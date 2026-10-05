@@ -39,5 +39,9 @@ git clone https://github.com/shoaib221/Chat.e.git
 cd Chat.e/backend
 npm install
 npm run dev
+```
 
-
+### Target Problems
+- Messaging through web sockets
+- Making friends & groups
+- Uploading media on cloud storage
