@@ -2,6 +2,12 @@
 
 This is a real-time chat application that supports one-to-one and group messaging. Users can exchange text messages as well as share photos, videos, and voice recordings instantly. 
 
+👉 **[Live Demo](https://chat-e-ofqb.onrender.com)**
+
+<p align="center">
+  <img src="images/banner2.jpg" width="700"  alt="Demo Image" />
+</p>
+
 ---
 
 ## ✨ Features
